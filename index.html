@@ -1300,7 +1300,21 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 @keyframes rc106PdfSweep{from{background-size:0% 100%;}to{background-size:100% 100%;}}
 @media(max-width:520px){#rc71VtpSpeedBand{min-width:62px;font-size:10px}}
 </style>
-</head>
+<style id="rc106-cover-full">
+/* RC106: show the complete cover artwork; crop only when the viewport is wider than the 16:9 artwork. */
+#cover-depan .cover-bg{object-fit:cover!important;object-position:center center!important;background:#073b2b;}
+@media (orientation:portrait){
+  #cover-depan .cover-bg{object-fit:contain!important;object-position:center center!important;}
+  #cover-depan{background:#073b2b!important;}
+}
+@media (orientation:landscape){
+  #cover-depan .cover-bg{object-fit:cover!important;object-position:center center!important;}
+}
+</style><style id="rc106-focus-speed-style">
+#autoFocusSpeedCard{margin-top:10px}
+#focusTempoRange{width:100%;accent-color:var(--accent)}
+#focusSpeedLabel{font-weight:850;color:var(--accent)}
+</style></head>
 <body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC106-FINETUNE-AF-PDF-COVER">
 <button aria-label="Smart Counter manual" id="manualSmartCounterBtn" title="Smart Counter Manual" type="button">🔢</button><button aria-label="Kurangi satu hitungan" class="counter-undo" id="counterUndo" type="button">↶ Kurangi</button>
 <button aria-label="Lanjutkan Auto Fokus dan tutup Smart Counter" class="counter-continue" id="counterContinue" type="button">▶ Lanjut Auto Fokus</button>
@@ -1422,7 +1436,7 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 </div>
 <div class="notes-list" id="notesList"></div><div class="empty-state" id="notesEmpty">Belum ada diary.</div></section></article>
 </main><footer class="bottom"><button class="action" onclick="goTo('beranda')">⌂ Home</button><button class="action nav-fullscreen-btn" id="navFullscreenBtn" aria-label="Layar penuh" title="Layar penuh">⛶</button><button class="action" id="themeNavBtn" aria-label="Ganti tema gelap/terang" title="Ganti tema">◐ Tema</button><button class="action" id="smartCounterNavBtn" aria-label="Buka Smart Counter" title="Smart Counter">🔢 Counter</button><button class="action nav-step" id="prevBtn" aria-label="Previous" title="Previous">‹‹</button><button class="action" id="focusBtn">Fokus</button><button class="action primary" id="autoBtn">▶ Scroll</button><button class="action" id="autoFocusBtn">◎ Auto Fokus</button><button class="action nav-step" id="nextBtn" aria-label="Next" title="Next">››</button><button class="action" id="fontDownBtn">A−</button><button class="action" id="fontBtn">A+</button><button class="action" id="checkpointBtn">📍 Simpan</button><button class="action" id="editBtn">✏️ Edit</button></footer></div><div class="drawer" id="drawer"><div class="shade"></div><aside class="panel"><button aria-label="Tutup menu" class="icon" id="closeBtn">✕</button><h3>Daftar Isi</h3><input class="searchbox" id="search" placeholder="Cari kata dalam bacaan..."/><button class="action primary" id="manageTocBtn" style="width:100%;margin:14px 0">☰ Atur Daftar Isi</button><div class="toc-group" data-menu-id="panduan-ziarah"><button class="toc-head"><span>🕌 Panduan Ziarah Kubur</span><b>+</b></button><div class="toc-list">
-<button onclick="goTo('panduan-ziarah')">Buka</button></div></div><div class="toc-group" data-menu-id="tawasulan"><button class="toc-head"><span>📿 TAWASULAN</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tawasulan')">Buka</button><small>Bacaan Tawassul</small></div></div><div class="toc-group" data-menu-id="surat-yasin-ziarah"><button class="toc-head"><span>📖 Surat Yasin</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-yasin-ziarah')">Buka</button><small>83 ayat • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="tahlil-ziarah"><button class="toc-head"><span>📿 Tahlil</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tahlil-ziarah')">Buka</button><small>Bacaan Tahlil • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="doa-tahlil"><button class="toc-head"><span>🤲 DOA TAHLIL</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-tahlil')">Buka</button><small>Doa penutup Tahlil</small></div></div><div class="toc-group" data-menu-id="surat-waqiah"><button class="toc-head"><span>🌾 Surat Al-Waqi’ah</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-waqiah')">Buka</button><small>96 ayat</small></div></div><div class="toc-group" data-menu-id="surat-mulk"><button class="toc-head"><span>🌙 Surat Al-Mulk</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-mulk')">Buka</button><small>30 ayat</small></div></div><div class="toc-group" data-menu-id="yasin-waqiah-tabarok"><button class="toc-head"><span>📚 Yasin Waqiah Tabarok</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('yasin-waqiah-tabarok')">Buka</button><small>Yasin • Al-Waqi’ah • Al-Mulk</small></div></div><div class="toc-group" data-menu-id="doa-1"><button class="toc-head"><span>🤲 Doa Setelah Sholat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-1')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="doa-2"><button class="toc-head"><span>⭐ Doa Hajat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-2')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="library-bacaan"><button class="toc-head"><span>📚 Library Bacaan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('library-bacaan')">Buka</button><small>Koleksi bacaan</small></div></div><div class="toc-group" data-menu-id="galeri-foto"><button class="toc-head"><span>🎞️ Galeri Media</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('galeri-foto')">Buka</button><small>Foto, Audio &amp; Video</small></div></div><div class="toc-group" data-menu-id="catatan"><button class="toc-head"><span>📝 Catatan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('catatan')">Buka</button><small>Catatan pribadi</small></div></div><h3>Pengaturan</h3><div class="settings-row"><button data-theme="emerald">Emerald</button><button data-theme="sepia">Sepia</button><button data-theme="dark">Gelap</button></div><div class="settings-row"><button id="speedDown">Scroll −</button><button id="speedLabel">1.0×</button><button id="speedUp">Scroll +</button><button id="speedTurbo" type="button">⚡ +60</button></div><div class="settings-row"><button id="focusSpeedDown">Fokus lebih lambat</button><button id="focusSpeedLabel">0,75×</button><button id="focusSpeedUp">Fokus lebih cepat</button></div><div class="control-card"><label>Kecepatan Auto Scroll: <output id="lpmOut">200 baris/menit</output></label><input id="lpmRange" max="420" min="10" step="5" type="range" value="200"/><div class="hint">Kecepatan dihitung berdasarkan tinggi baris aktual. Font lebih besar otomatis disesuaikan agar ritme baca tetap stabil.</div></div><div class="control-card"><label>Auto Fokus</label><select id="focusMode"><option selected="" value="phrase">Per frasa</option><option value="paragraph">Per paragraf</option></select><div class="hint">Auto Fokus memiliki ritme sendiri dan tidak bergantung pada kecepatan Auto Scroll.</div></div>
+<button onclick="goTo('panduan-ziarah')">Buka</button></div></div><div class="toc-group" data-menu-id="tawasulan"><button class="toc-head"><span>📿 TAWASULAN</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tawasulan')">Buka</button><small>Bacaan Tawassul</small></div></div><div class="toc-group" data-menu-id="surat-yasin-ziarah"><button class="toc-head"><span>📖 Surat Yasin</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-yasin-ziarah')">Buka</button><small>83 ayat • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="tahlil-ziarah"><button class="toc-head"><span>📿 Tahlil</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tahlil-ziarah')">Buka</button><small>Bacaan Tahlil • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="doa-tahlil"><button class="toc-head"><span>🤲 DOA TAHLIL</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-tahlil')">Buka</button><small>Doa penutup Tahlil</small></div></div><div class="toc-group" data-menu-id="surat-waqiah"><button class="toc-head"><span>🌾 Surat Al-Waqi’ah</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-waqiah')">Buka</button><small>96 ayat</small></div></div><div class="toc-group" data-menu-id="surat-mulk"><button class="toc-head"><span>🌙 Surat Al-Mulk</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-mulk')">Buka</button><small>30 ayat</small></div></div><div class="toc-group" data-menu-id="yasin-waqiah-tabarok"><button class="toc-head"><span>📚 Yasin Waqiah Tabarok</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('yasin-waqiah-tabarok')">Buka</button><small>Yasin • Al-Waqi’ah • Al-Mulk</small></div></div><div class="toc-group" data-menu-id="doa-1"><button class="toc-head"><span>🤲 Doa Setelah Sholat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-1')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="doa-2"><button class="toc-head"><span>⭐ Doa Hajat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-2')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="library-bacaan"><button class="toc-head"><span>📚 Library Bacaan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('library-bacaan')">Buka</button><small>Koleksi bacaan</small></div></div><div class="toc-group" data-menu-id="galeri-foto"><button class="toc-head"><span>🎞️ Galeri Media</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('galeri-foto')">Buka</button><small>Foto, Audio &amp; Video</small></div></div><div class="toc-group" data-menu-id="catatan"><button class="toc-head"><span>📝 Catatan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('catatan')">Buka</button><small>Catatan pribadi</small></div></div><h3>Pengaturan</h3><div class="settings-row"><button data-theme="emerald">Emerald</button><button data-theme="sepia">Sepia</button><button data-theme="dark">Gelap</button></div><div class="settings-row"><button id="speedDown">Scroll −</button><button id="speedLabel">1.0×</button><button id="speedUp">Scroll +</button><button id="speedTurbo" type="button">⚡ +60</button></div><div class="control-card" id="autoFocusSpeedCard"><label>Kecepatan Auto Fokus: <output id="focusSpeedLabel">1,00×</output></label><input id="focusTempoRange" type="range" min="0.50" max="2.00" step="0.05" value="1.00" aria-label="Kecepatan Auto Fokus"/><div class="hint">1,00× = Normal • &lt;1,00× = lebih cepat • &gt;1,00× = lebih lambat. Tersimpan otomatis.</div></div><div class="control-card"><label>Kecepatan Auto Scroll: <output id="lpmOut">200 baris/menit</output></label><input id="lpmRange" max="420" min="10" step="5" type="range" value="200"/><div class="hint">Kecepatan dihitung berdasarkan tinggi baris aktual. Font lebih besar otomatis disesuaikan agar ritme baca tetap stabil.</div></div><div class="control-card"><label>Auto Fokus</label><select id="focusMode"><option selected="" value="phrase">Per frasa</option><option value="paragraph">Per paragraf</option></select><div class="hint">Auto Fokus memiliki ritme sendiri dan tidak bergantung pada kecepatan Auto Scroll.</div></div>
 <div class="control-card" id="paragraphKaraokeCard">
 <label>🎤 Karaoke per paragraf: <output id="karaokeParagraphOut">7,5 dtk</output></label>
 <input id="karaokeParagraphRange" max="30" min="2" step="0.5" type="range" value="7.5"/>
@@ -1539,7 +1553,7 @@ document.addEventListener('webkitfullscreenchange',()=>setAppFullscreen(!!docume
 <script>
 /* Build 4 enhancement layer */
 const B4KEY='amp-b4-';
-const LPM_DEFAULT=200, FOCUS_TEMPO_DEFAULT=0.75;
+const LPM_DEFAULT=200, FOCUS_TEMPO_DEFAULT=1.00;
 let lpm=+(SAFE_STORE.getItem(B4KEY+'lpm')||LPM_DEFAULT), focusTempo=+(SAFE_STORE.getItem(B4KEY+'focusTempo')||FOCUS_TEMPO_DEFAULT), phraseIndex=0, phraseTimer=0;
 const lpmRange=document.getElementById('lpmRange'),lpmOut=document.getElementById('lpmOut');
 lpmRange.value=String(lpm);lpmOut.textContent=lpm+' baris/menit';
@@ -1643,10 +1657,12 @@ function updateLpm(showToast=true){
   if(showToast)toast('Auto Scroll '+lpm+' baris/menit');
 }
 function updateFocusTempo(showToast=true){
-  focusTempo=Math.max(.45,Math.min(2.5,focusTempo));
+  focusTempo=Math.max(.50,Math.min(2.00,Number(focusTempo)||1));
+  const range=document.getElementById('focusTempoRange');
+  if(range)range.value=focusTempo.toFixed(2);
   focusSpeedLabel.textContent=focusTempo.toFixed(2).replace('.',',')+'×';
   SAFE_STORE.setItem(B4KEY+'focusTempo',focusTempo);
-  if(autoFocus)startPhraseFocus();
+  try{window.RC103Standalone?.setTempo?.(focusTempo);}catch(_){}
   if(showToast)toast('Kecepatan fokus '+focusSpeedLabel.textContent);
 }
 lpmRange.oninput=()=>updateLpm(true);
@@ -1654,8 +1670,8 @@ speedDown.onclick=()=>{lpmRange.value=String(Math.max(10,lpm-10));updateLpm(true
 speedUp.onclick=()=>{lpmRange.value=String(Math.min(420,lpm+20));updateLpm(true)};
 const speedTurbo=document.getElementById('speedTurbo');
 if(speedTurbo)speedTurbo.onclick=()=>{lpmRange.value=String(Math.min(420,lpm+60));updateLpm(true)};
-focusSpeedDown.onclick=()=>{focusTempo=Math.min(2.5,+(focusTempo+.15).toFixed(2));updateFocusTempo(true)};
-focusSpeedUp.onclick=()=>{focusTempo=Math.max(.45,+(focusTempo-.15).toFixed(2));updateFocusTempo(true)};
+const focusTempoRange=document.getElementById('focusTempoRange');
+if(focusTempoRange)focusTempoRange.oninput=()=>{focusTempo=Number(focusTempoRange.value);updateFocusTempo(true)};
 updateLpm(false);
 updateFocusTempo(false);
 window.addEventListener('pageshow',()=>{
@@ -4592,8 +4608,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 /* RC103: one authoritative Auto Fokus engine. */
 #reader .para{margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;line-height:1.58!important}
 #reader .para.rc103-active{scroll-margin-top:30vh!important}
-body.focus .para.rc103-active .semantic{opacity:.58!important}
-body.focus .para.rc103-active .semantic.rc103-focus-word{
+body.focus .semantic{opacity:.58!important}
+body.focus .semantic.rc103-focus-word{
   opacity:1!important;
   display:inline!important;
   white-space:normal!important;
@@ -4614,7 +4630,7 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
 #rc103AfStatus.show{display:block}
 <style id="rc106-autofocus-smooth">
 /* RC106: smooth karaoke/highlight transition; no abrupt phrase flash. */
-body.focus .para.rc103-active .semantic.rc103-focus-word{
+body.focus .semantic.rc103-focus-word{
   animation:rc106FocusSweep var(--karaoke-duration,2200ms) cubic-bezier(.22,.61,.36,1) forwards!important;
   transition:opacity .22s ease,filter .22s ease,background-color .22s ease!important;
   will-change:background-size,opacity;
@@ -4633,6 +4649,8 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
   var status=document.getElementById('rc103AfStatus');
   var running=false, paused=false, waiting=false;
   var paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, startedAt=0;
+  var highlightNode=null, highlightRemoveTimer=0;
+  var HANDOFF_MS=240;
 
   function paras(){
     return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));
@@ -4644,10 +4662,31 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
            document.querySelector('#reader .para.active') || null;
   }
   function clearHighlight(){
+    clearTimeout(highlightRemoveTimer);
+    highlightRemoveTimer=0;
     document.querySelectorAll('.rc103-focus-word').forEach(function(x){
       x.classList.remove('rc103-focus-word');
       x.style.removeProperty('--karaoke-duration');
     });
+    highlightNode=null;
+  }
+  function handoffHighlight(node,duration){
+    if(!node)return;
+    var previous=highlightNode;
+    node.style.setProperty('--karaoke-duration',duration+'ms');
+    node.classList.add('rc103-focus-word');
+    highlightNode=node;
+    clearTimeout(highlightRemoveTimer);
+    if(previous && previous!==node){
+      highlightRemoveTimer=setTimeout(function(){
+        document.querySelectorAll('.rc103-focus-word').forEach(function(x){
+          if(x!==highlightNode){
+            x.classList.remove('rc103-focus-word');
+            x.style.removeProperty('--karaoke-duration');
+          }
+        });
+      },HANDOFF_MS);
+    }
   }
   function clearTimer(){clearTimeout(timer);clearTimeout(scrollTimer);}
   function setStatus(t){
@@ -4703,10 +4742,10 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
   }
   function durationFor(el,node){
     var words=(node?.textContent||'').trim().split(/\s+/).filter(Boolean).length||2;
-    var tempo=0.75;
+    var tempo=1.00;
     try{
       var v=Number(localStorage.getItem('tqv3b3-focusTempo'));
-      if(Number.isFinite(v)&&v>0)tempo=Math.max(.45,Math.min(2.5,v));
+      if(Number.isFinite(v)&&v>0)tempo=Math.max(.50,Math.min(2.00,v));
     }catch(_){}
     return Math.max(750,Math.min(5000,words*520*tempo));
   }
@@ -4742,10 +4781,11 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
     var el=current(), ps=phraseNodes(el);
     if(!el||!ps.length){nextParagraph();return;}
     phraseIndex=Math.max(0,Math.min(phraseIndex,ps.length-1));
-    clearHighlight();
     var node=ps[phraseIndex];
-    node.classList.add('rc103-focus-word');
-    node.style.setProperty('--karaoke-duration',durationFor(el,node)+'ms');
+    var duration=durationFor(el,node);
+    /* RC106: overlap the outgoing and incoming highlights for 240 ms.
+       Highlight visibility is independent of the active paragraph class. */
+    handoffHighlight(node,duration);
     /* Scroll only at paragraph boundaries or when the paragraph leaves the
        dead-band; never recenter every phrase. */
     stableScroll(el,phraseIndex===0);
@@ -4760,10 +4800,10 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
         if(target && openCounter(el))return;
         nextParagraph();
       }
-    },durationFor(el,node));
+    },duration);
   }
   function nextParagraph(){
-    clearTimer();clearHighlight();
+    clearTimer();
     var ps=paras();
     if(paraIndex<0){
       var a=document.querySelector('#reader .para.active')||ps[0];
@@ -4779,7 +4819,7 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
     activePara(ps[paraIndex]);
     running=true;paused=false;waiting=false;
     ensureFocusMode();render();
-    setTimeout(focusPhrase,80);
+    requestAnimationFrame(focusPhrase);
   }
   function start(reset){
     if(waiting)return;
@@ -4799,7 +4839,7 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
     activePara(ps[paraIndex]);
     running=true;paused=false;
     render();
-    setTimeout(focusPhrase,80);
+    requestAnimationFrame(focusPhrase);
   }
   function pause(){
     if(!running)return;
@@ -4810,6 +4850,25 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
     document.querySelectorAll('.rc103-active').forEach(function(x){x.classList.remove('rc103-active');});
     render();
   }
+
+  window.RC103Standalone={
+    setTempo:function(v){
+      var n=Number(v);
+      if(!Number.isFinite(n))return;
+      n=Math.max(.50,Math.min(2.00,n));
+      try{localStorage.setItem('tqv3b3-focusTempo',String(n));}catch(_){}
+      if(running&&!waiting){
+        clearTimeout(timer);
+        requestAnimationFrame(focusPhrase);
+      }
+    },
+    getTempo:function(){
+      try{
+        var n=Number(localStorage.getItem('tqv3b3-focusTempo'));
+        return Number.isFinite(n)?Math.max(.50,Math.min(2.00,n)):1;
+      }catch(_){return 1;}
+    }
+  };
 
   /* One and only one handler for the visible Auto Fokus button. */
   if(afBtn){
