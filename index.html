@@ -1277,7 +1277,7 @@ body.cover-mode #cover-depan:after{pointer-events:none}
 @media(max-width:520px){#rc71VtpSpeedBand{min-width:62px;font-size:10px}}
 </style>
 </head>
-<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC113-CLEAN-LETTER-FLOW">
+<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC114-DUAL-SMOOTH-FLOW">
 <button aria-label="Smart Counter manual" id="manualSmartCounterBtn" title="Smart Counter Manual" type="button">🔢</button><button aria-label="Kurangi satu hitungan" class="counter-undo" id="counterUndo" type="button">↶ Kurangi</button>
 <button aria-label="Lanjutkan Auto Fokus dan tutup Smart Counter" class="counter-continue" id="counterContinue" type="button">▶ Lanjut Auto Fokus</button>
 <button aria-label="Tambah hitungan dzikir" class="counter-fab" id="counterFab" type="button"><span class="counter-value" id="counterValue">0 / 33</span><span class="counter-mini-progress"><i id="counterProgress"></i></span><span class="counter-label" id="counterLabel">Dzikir</span><span class="counter-hint">Ketuk +1</span></button><div id="counterFloatActions" aria-label="Kontrol Smart Counter"><button aria-label="Reset hitungan ke 0" id="counterResetZero" title="Reset ke 0" type="button">↺</button><button aria-label="Exit Smart Counter" id="counterExit" title="Exit Smart Counter" type="button">✕</button></div>
@@ -1403,6 +1403,14 @@ body.cover-mode #cover-depan:after{pointer-events:none}
 <input id="rc113SpeedRange" max="2" min="0.5" step="0.05" type="range" value="1"/>
 <div class="rc113-speed-scale"><span>0,50×<small>Lebih cepat</small></span><span>1,00×<small>Normal</small></span><span>2,00×<small>Lebih lambat</small></span></div>
 <div class="hint">Satu kontrol untuk Auto Fokus, Auto Scroll, dan Karaoke. Nilai lebih kecil = lebih cepat; nilai lebih besar = lebih lambat.</div>
+</div>
+<div class="control-card rc114-mode-card" id="rc114ModeCard">
+<label>👁️ Mode Highlight</label>
+<div class="rc114-mode-grid" role="group" aria-label="Mode Highlight">
+<button type="button" id="rc114EyeBtn" data-mode="eye">Eye Glide<small>Glide ringan mengikuti mata</small></button>
+<button type="button" id="rc114SoftBtn" data-mode="soft">Soft Marker<small>Marker lembut kiri → kanan</small></button>
+</div>
+<p class="rc114-mode-help">Kedua mode bergerak kontinu huruf demi huruf tanpa jeda atau lompatan.</p>
 </div>
 <div id="rc113LegacySpeedControls" hidden aria-hidden="true"><div class="settings-row"><button id="speedDown">Scroll −</button><button id="speedLabel">1.0×</button><button id="speedUp">Scroll +</button><button id="speedTurbo" type="button">⚡ +60</button></div><div class="settings-row"><button id="focusSpeedDown">Fokus lebih lambat</button><button id="focusSpeedLabel">0,75×</button><button id="focusSpeedUp">Fokus lebih cepat</button></div><div class="control-card"><label>Kecepatan Auto Scroll: <output id="lpmOut">200 baris/menit</output></label><input id="lpmRange" max="420" min="10" step="5" type="range" value="200"/></div><div class="control-card"><label>Auto Fokus</label><select id="focusMode"><option selected value="phrase">Per frasa</option><option value="paragraph">Per paragraf</option></select></div><div class="control-card" id="paragraphKaraokeCard"><label>🎤 Karaoke: <output id="karaokeParagraphOut">7,5 dtk</output></label><input id="karaokeParagraphRange" max="30" min="2" step="0.5" type="range" value="7.5"/></div></div><button class="action" id="resumeBtn" style="width:100%">▶ Lanjutkan bacaan terakhir</button><p style="color:var(--muted);font-size:13px">Posisi terakhir, tema, ukuran huruf, kecepatan LPM, perubahan teks, dan penanda tersimpan otomatis.</p></aside></div><div class="modal wide" id="libraryModal"><div class="modal-card"><h3 id="libraryModalTitle" style="margin-top:0">Tambah Bacaan</h3><div class="form-grid"><label>Nama bacaan<input id="libTitle"/></label><label>Kategori<select id="libCategory"><option>Doa</option><option>Surat</option><option>Dzikir</option><option>Sholawat</option><option>Tahlil</option><option>Hizib</option><option>Ayat Pilihan</option><option>Lainnya</option></select></label><label>Teks Arab<textarea dir="rtl" id="libArabic"></textarea></label><label>Latin<textarea id="libLatin"></textarea></label><label>Terjemahan<textarea id="libTranslation"></textarea></label><label class="rc35-hidden-source">Sumber / catatan<input id="libSource" placeholder="Sumber internal"/></label></div><div class="modal-actions"><button class="action" id="libraryCancelBtn" type="button">Batal</button><button class="action primary" id="librarySaveBtn" type="button">Simpan</button></div></div></div>
 <div class="modal wide" id="ritualModal"><div class="modal-card"><h3 id="ritualModalTitle" style="margin-top:0">Buat Ritual</h3><div class="form-grid"><label>Nama ritual<input id="ritualName" placeholder="Contoh: Wirid Pagi"/></label><label>Keterangan<input id="ritualDescription" placeholder="Opsional"/></label></div><h4>Pilih bacaan dari Library</h4><div class="check-list" id="ritualLibraryChoices"></div><h4>Susunan bacaan</h4><div class="ritual-builder-list" id="ritualBuilderList"></div><div class="modal-actions"><button class="action" id="ritualCancelBtn" type="button">Batal</button><button class="action primary" id="ritualSaveBtn" type="button">Simpan Ritual</button></div></div></div>
@@ -4577,95 +4585,98 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 
-<style id="rc113-letterflow-style">
-/* RC113 CLEAN LETTER FLOW — single visual engine, no observer, no phrase timers. */
+<style id="rc114-smoothflow-style">
+/* RC114 DUAL SMOOTH FLOW — one RAF engine; no MutationObserver; no handoff timers. */
 #rc113LegacySpeedControls{display:none!important}
 .rc113-speed-card input[type=range]{width:100%;accent-color:var(--accent)}
 .rc113-speed-scale{display:flex;justify-content:space-between;gap:8px;margin-top:5px;color:var(--muted);font-size:12px}.rc113-speed-scale span{text-align:center}.rc113-speed-scale small{display:block;font-size:10px;margin-top:1px}
-body.focus #reader .para{opacity:.32!important;transition:opacity .16s linear!important}
-body.focus #reader .para.rc113-active{opacity:1!important;scroll-margin-top:28vh!important}
-body.focus #reader .para.rc113-active .semantic{opacity:1!important;background:none!important;box-shadow:none!important;animation:none!important;transition:none!important}
-.rc113-word{display:inline-block;white-space:nowrap}
-.rc113-char{display:inline;position:relative;border-radius:.18em;transition:background-color 70ms linear,color 70ms linear,box-shadow 70ms linear;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.rc113-char.rc113-read{background:color-mix(in srgb,#ffe56d 28%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,#ffe56d 10%,transparent)}
-.rc113-char.rc113-current{background:linear-gradient(180deg,color-mix(in srgb,#ffe56d 78%,white 22%),color-mix(in srgb,#7fe0ac 50%,#ffe56d 50%));box-shadow:0 0 0 2px color-mix(in srgb,#ffe56d 28%,transparent),0 2px 8px rgba(0,0,0,.10);color:var(--ink)!important}
-.rc113-char.rc113-tail{background:color-mix(in srgb,#7fe0ac 22%,transparent)}
-.rc113-leaving .rc113-char{transition:background-color 150ms linear,box-shadow 150ms linear!important;background:transparent!important;box-shadow:none!important}
-#rc113AfStatus{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);z-index:180;display:none;padding:6px 12px;border-radius:999px;background:#111d;color:#fff;font-size:11px;font-weight:800;white-space:nowrap;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-#rc113AfStatus.show{display:block}
-@media(prefers-reduced-motion:reduce){.rc113-char{transition:none!important}}
+.rc114-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.rc114-mode-grid button{min-height:58px;border:1px solid color-mix(in srgb,var(--accent) 28%,#bbb);border-radius:13px;background:color-mix(in srgb,var(--card) 94%,white 6%);color:var(--ink);font-weight:800;padding:8px 10px}.rc114-mode-grid button small{display:block;margin-top:4px;color:var(--muted);font-size:10px;font-weight:600;line-height:1.2}.rc114-mode-grid button.on{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 11%,var(--card));box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 16%,transparent)}.rc114-mode-help{margin:8px 0 0;color:var(--muted);font-size:11px;line-height:1.35}
+body.focus #reader .para{opacity:.34!important;transition:opacity .14s linear!important}
+body.focus #reader .para.rc114-active{opacity:1!important;scroll-margin-top:28vh!important}
+body.focus #reader .para.rc114-active .semantic{opacity:1!important;background:none!important;box-shadow:none!important;animation:none!important;transition:none!important}
+.rc114-word{display:inline;white-space:normal}
+.rc114-char{display:inline;position:relative;border-radius:.17em;box-decoration-break:clone;-webkit-box-decoration-break:clone;background-repeat:no-repeat!important;transition:none!important}
+/* Completed letters stay gently marked, while the active glyph fills continuously from left to right. */
+.rc114-char.rc114-done{background:color-mix(in srgb,#ffe56d 24%,transparent)!important;box-shadow:0 0 0 .5px color-mix(in srgb,#d9bd20 12%,transparent)}
+body[data-rc114-highlight="soft"] .rc114-char.rc114-live{background:linear-gradient(90deg,color-mix(in srgb,#ffe56d 67%,white 33%) 0%,color-mix(in srgb,#ffe56d 67%,white 33%) calc(var(--rc114-p,0) * 1%),transparent calc(var(--rc114-p,0) * 1%),transparent 100%)!important;box-shadow:0 2px 5px rgba(0,0,0,.055)}
+/* Eye Glide uses a softer completed trail and a slim luminous leading edge; progress is still continuous. */
+body[data-rc114-highlight="eye"] .rc114-char.rc114-done{background:color-mix(in srgb,#7fe0ac 18%,transparent)!important;box-shadow:none}
+body[data-rc114-highlight="eye"] .rc114-char.rc114-live{background:linear-gradient(90deg,color-mix(in srgb,#7fe0ac 25%,transparent) 0%,color-mix(in srgb,#7fe0ac 25%,transparent) calc(var(--rc114-p,0) * 1%),transparent calc(var(--rc114-p,0) * 1%),transparent 100%)!important;box-shadow:inset 0 -2px 0 color-mix(in srgb,#14a46b calc(var(--rc114-p,0) * 1%),transparent),0 1px 5px rgba(0,0,0,.04)}
+#rc114AfStatus{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);z-index:180;display:none;padding:6px 12px;border-radius:999px;background:#111d;color:#fff;font-size:11px;font-weight:800;white-space:nowrap;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#rc114AfStatus.show{display:block}
+@media(max-width:520px){.rc114-mode-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.rc114-char{transition:none!important}}
 </style>
-<div id="rc113AfStatus" aria-live="polite">Auto Fokus • Huruf per Huruf</div>
-<script id="rc113-letterflow-engine">
+<div id="rc114AfStatus" aria-live="polite">Auto Fokus • Eye Glide</div>
+<script id="rc114-smoothflow-engine">
 (function(){
 'use strict';
-window.__RC113_LETTER_FLOW=true;
+window.__RC114_SMOOTH_FLOW=true;
 var reader=document.getElementById('reader');
 var originalAf=document.getElementById('autoFocusBtn');
 if(!reader||!originalAf)return;
 
-/* Clone visible controls to physically remove all legacy click listeners. */
 function cleanButton(id){var old=document.getElementById(id);if(!old)return null;var nu=old.cloneNode(true);old.replaceWith(nu);return nu;}
 var afBtn=cleanButton('autoFocusBtn');
 var ppBtn=cleanButton('af76PlayPause');
 var stopBtn=cleanButton('af76Stop');
 var prevCtl=cleanButton('af76Prev');
 var nextCtl=cleanButton('af76Next');
-var status=document.getElementById('rc113AfStatus');
+var status=document.getElementById('rc114AfStatus');
 var ctl=document.getElementById('af76Controller');
 var legacyStatus=document.getElementById('af76Status');
 if(legacyStatus)legacyStatus.style.display='none';
 
 var running=false,paused=false,waiting=false,paraIndex=-1;
-var rafId=0,startTs=0,lastIndex=-1,currentChars=[],wrappedPara=null,restoreMap=new Map();
-var speed=1;
-var BASE_MS_PER_CHAR=92;
+var rafId=0,startTs=0,pausedElapsed=0,currentChars=[],wrapped=null,lastWhole=-1,lastLive=-1;
+var speed=1, mode='eye';
+var BASE_MS_PER_CHAR=94;
 
 function allParas(){return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));}
 function repeatTarget(el){if(!el)return 0;var d=Number(el.dataset.repeatTarget||el.dataset.repeat||0);if(d>0)return d;var m=(el.textContent||'').replace(/\s+/g,' ').match(/(?:^|[\s(\[])(\d{1,4})\s*[x×](?=$|[\s)\],.;:])/i);if(m){d=Number(m[1]||0);if(d>0){el.dataset.repeatTarget=String(d);el.dataset.repeat=String(d);el.classList.add('repeatable');}}return d;}
 function currentPara(){var ps=allParas();return paraIndex>=0?ps[paraIndex]:null;}
-function setStatus(){if(!status)return;status.classList.toggle('show',running||paused||waiting);status.textContent=waiting?'Smart Counter':running?'Auto Fokus • Huruf per Huruf':paused?'Auto Fokus dijeda':'Auto Fokus';if(ctl)ctl.classList.toggle('show',running||paused);if(ppBtn)ppBtn.textContent=running?'⏸':'▶';if(afBtn){afBtn.textContent=running?'⏸ Auto Fokus':paused?'▶ Lanjut Fokus':'◎ Auto Fokus';afBtn.classList.toggle('on',running);}}
+function modeLabel(){return mode==='soft'?'Soft Marker':'Eye Glide';}
+function setStatus(){if(!status)return;status.classList.toggle('show',running||paused||waiting);status.textContent=waiting?'Smart Counter':running?'Auto Fokus • '+modeLabel():paused?'Auto Fokus dijeda':'Auto Fokus';if(ctl)ctl.classList.toggle('show',running||paused);if(ppBtn)ppBtn.textContent=running?'⏸':'▶';if(afBtn){afBtn.textContent=running?'⏸ Auto Fokus':paused?'▶ Lanjut Fokus':'◎ Auto Fokus';afBtn.classList.toggle('on',running);}}
 function ensureFocus(){document.body.classList.add('focus');document.getElementById('focusBtn')?.classList.add('on');}
-function setActive(el){var ps=allParas();paraIndex=ps.indexOf(el);ps.forEach(function(p){p.classList.remove('rc113-active','rc113-leaving');});document.querySelectorAll('#reader .para.active').forEach(function(p){p.classList.remove('active');});if(el)el.classList.add('active','rc113-active');}
+function setActive(el){var ps=allParas();paraIndex=ps.indexOf(el);ps.forEach(function(p){p.classList.remove('rc114-active');});document.querySelectorAll('#reader .para.active').forEach(function(p){p.classList.remove('active');});if(el)el.classList.add('active','rc114-active');}
 function stableScroll(el,force){if(!el||!reader)return;var rr=reader.getBoundingClientRect(),tr=el.getBoundingClientRect(),vh=reader.clientHeight;var top=tr.top-rr.top,bottom=tr.bottom-rr.top;if(!force&&top>=vh*.16&&bottom<=vh*.76)return;var target=vh*.28;var delta=(top+Math.min(tr.height*.14,40))-target;if(Math.abs(delta)<16&&!force)return;var max=Math.max(0,reader.scrollHeight-reader.clientHeight);var next=Math.max(0,Math.min(max,reader.scrollTop+delta));try{reader.scrollTo({top:next,behavior:'smooth'});}catch(_){reader.scrollTop=next;}}
 function graphemes(text){try{if(Intl&&Intl.Segmenter){var seg=new Intl.Segmenter(undefined,{granularity:'grapheme'});return Array.from(seg.segment(text),function(x){return x.segment;});}}catch(_){}return Array.from(text);}
-function wrapSemantic(sem){if(restoreMap.has(sem))return;restoreMap.set(sem,sem.innerHTML);var text=sem.textContent||'';sem.textContent='';var parts=text.split(/(\s+)/);parts.forEach(function(part){if(!part)return;if(/^\s+$/.test(part)){sem.appendChild(document.createTextNode(part));return;}var word=document.createElement('span');word.className='rc113-word';graphemes(part).forEach(function(ch){var c=document.createElement('span');c.className='rc113-char';c.textContent=ch;word.appendChild(c);});sem.appendChild(word);});}
-function prepare(el){if(wrappedPara&&wrappedPara!==el)restoreParagraph(wrappedPara);wrappedPara=el;restoreMap.clear();var sems=Array.from(el.querySelectorAll('.semantic'));if(!sems.length){try{if(typeof semanticize==='function')semanticize(el,el.dataset.phrases||'',el.dataset.sourceText||el.innerText);}catch(_){}sems=Array.from(el.querySelectorAll('.semantic'));}
-sems.forEach(wrapSemantic);currentChars=Array.from(el.querySelectorAll('.rc113-char'));lastIndex=-1;currentChars.forEach(function(c){c.classList.remove('rc113-read','rc113-current','rc113-tail');});}
-function restoreParagraph(el){if(!el)return;el.classList.add('rc113-leaving');setTimeout(function(){restoreMap.forEach(function(html,sem){if(sem.isConnected)sem.innerHTML=html;});restoreMap.clear();el.classList.remove('rc113-leaving');},155);wrappedPara=null;}
-function paint(idx){if(idx===lastIndex)return;var old=lastIndex;lastIndex=idx;if(old>=0&&currentChars[old]){currentChars[old].classList.remove('rc113-current');currentChars[old].classList.add('rc113-read');if(old-1>=0)currentChars[old-1].classList.remove('rc113-tail');}
-if(idx>=0&&currentChars[idx]){currentChars[idx].classList.add('rc113-current');if(idx-1>=0)currentChars[idx-1].classList.add('rc113-read','rc113-tail');}}
+function wrapSemantic(sem,entries){entries.push([sem,sem.innerHTML]);var text=sem.textContent||'';sem.textContent='';var parts=text.split(/(\s+)/);parts.forEach(function(part){if(!part)return;if(/^\s+$/.test(part)){sem.appendChild(document.createTextNode(part));return;}var word=document.createElement('span');word.className='rc114-word';graphemes(part).forEach(function(ch){var c=document.createElement('span');c.className='rc114-char';c.textContent=ch;c.style.setProperty('--rc114-p','0');word.appendChild(c);});sem.appendChild(word);});}
+function restoreWrapped(){if(!wrapped)return;wrapped.entries.forEach(function(pair){var sem=pair[0],html=pair[1];if(sem&&sem.isConnected)sem.innerHTML=html;});wrapped=null;currentChars=[];lastWhole=-1;lastLive=-1;}
+function prepare(el){restoreWrapped();var entries=[];var sems=Array.from(el.querySelectorAll('.semantic'));if(!sems.length){try{if(typeof semanticize==='function')semanticize(el,el.dataset.phrases||'',el.dataset.sourceText||el.innerText);}catch(_){}sems=Array.from(el.querySelectorAll('.semantic'));}if(!sems.length){/* clean fallback: wrap paragraph text itself only when semantic spans are unavailable */var holder=document.createElement('span');holder.className='semantic';while(el.firstChild)holder.appendChild(el.firstChild);el.appendChild(holder);sems=[holder];}
+sems.forEach(function(sem){wrapSemantic(sem,entries);});wrapped={para:el,entries:entries};currentChars=Array.from(el.querySelectorAll('.rc114-char'));lastWhole=-1;lastLive=-1;}
+function setMode(m,announce){mode=(m==='soft')?'soft':'eye';document.body.dataset.rc114Highlight=mode;var eb=document.getElementById('rc114EyeBtn'),sb=document.getElementById('rc114SoftBtn');if(eb)eb.classList.toggle('on',mode==='eye');if(sb)sb.classList.toggle('on',mode==='soft');try{localStorage.setItem('tqv3b3-rc114HighlightMode',mode);}catch(_){}setStatus();if(announce){try{toast('Highlight: '+modeLabel());}catch(_){}}}
+/* progress is continuous: integer part = completed glyphs, fractional part = fill inside the live glyph. */
+function paintProgress(progress){var n=currentChars.length;if(!n)return;progress=Math.max(0,Math.min(n,progress));var whole=Math.floor(progress),frac=progress-whole;var live=whole<n?whole:n-1;
+if(whole>lastWhole){for(var i=Math.max(0,lastWhole);i<whole&&i<n;i++){var c=currentChars[i];c.classList.remove('rc114-live');c.classList.add('rc114-done');c.style.setProperty('--rc114-p','100');}lastWhole=whole;}
+if(lastLive!==live){if(lastLive>=0&&lastLive<n&&lastLive>=whole){currentChars[lastLive].classList.remove('rc114-live');currentChars[lastLive].style.setProperty('--rc114-p','0');}if(live>=0&&live<n){currentChars[live].classList.add('rc114-live');currentChars[live].classList.remove('rc114-done');}lastLive=live;}
+if(whole<n&&live>=0){currentChars[live].style.setProperty('--rc114-p',(frac*100).toFixed(2));}else if(n){currentChars[n-1].classList.remove('rc114-live');currentChars[n-1].classList.add('rc114-done');currentChars[n-1].style.setProperty('--rc114-p','100');}}
 function msPerChar(){return BASE_MS_PER_CHAR*speed;}
-function frame(ts){if(!running||waiting)return;if(!startTs)startTs=ts;var elapsed=ts-startTs;var idx=Math.floor(elapsed/msPerChar());if(idx>=currentChars.length){if(currentChars.length){paint(currentChars.length-1);currentChars[currentChars.length-1].classList.remove('rc113-current');currentChars[currentChars.length-1].classList.add('rc113-read');}finishParagraph(ts);return;}paint(idx);rafId=requestAnimationFrame(frame);}
-function beginParagraph(el,ts){cancelAnimationFrame(rafId);ensureFocus();setActive(el);prepare(el);stableScroll(el,true);startTs=ts||performance.now();running=true;paused=false;setStatus();if(!currentChars.length){finishParagraph(startTs);return;}rafId=requestAnimationFrame(frame);}
+function elapsedAt(ts){return pausedElapsed+(ts-startTs);}
+function frame(ts){if(!running||waiting)return;var progress=elapsedAt(ts)/msPerChar();if(progress>=currentChars.length){paintProgress(currentChars.length);finishParagraph(ts);return;}paintProgress(progress);rafId=requestAnimationFrame(frame);}
+function beginParagraph(el,ts){cancelAnimationFrame(rafId);ensureFocus();setActive(el);prepare(el);stableScroll(el,true);pausedElapsed=0;startTs=ts||performance.now();running=true;paused=false;setStatus();if(!currentChars.length){finishParagraph(startTs);return;}paintProgress(0);rafId=requestAnimationFrame(frame);}
 function openCounter(el){var target=repeatTarget(el);if(!target)return false;cancelAnimationFrame(rafId);waiting=true;running=false;paused=true;setStatus();try{window.SmartDzikirCounter?.activate?.(el,paraIndex);}catch(_){}return true;}
-function finishParagraph(ts){var old=currentPara();if(old&&repeatTarget(old)&&openCounter(old))return;var ps=allParas();if(paraIndex>=ps.length-1){running=false;paused=false;setStatus();try{toast('Auto Fokus selesai');}catch(_){}return;}var next=ps[paraIndex+1];if(old)restoreParagraph(old);/* NO timeout: first letter of next paragraph starts in the same animation turn. */beginParagraph(next,ts||performance.now());}
+function finishParagraph(ts){var old=currentPara();if(old&&repeatTarget(old)&&openCounter(old))return;var ps=allParas();if(paraIndex>=ps.length-1){running=false;paused=false;restoreWrapped();setStatus();try{toast('Auto Fokus selesai');}catch(_){}return;}var next=ps[paraIndex+1];/* zero artificial gap: restore old and start next immediately in this same RAF turn. */restoreWrapped();beginParagraph(next,ts||performance.now());}
 function start(reset){if(waiting)return;var ps=allParas();if(!ps.length)return;if(reset||paraIndex<0){var active=document.querySelector('#reader .para.active')||ps[0];paraIndex=Math.max(0,ps.indexOf(active));}var el=ps[paraIndex]||ps[0];running=true;paused=false;beginParagraph(el,performance.now());}
-function pause(){if(!running)return;cancelAnimationFrame(rafId);running=false;paused=true;setStatus();}
-function stop(){cancelAnimationFrame(rafId);running=false;paused=false;waiting=false;startTs=0;lastIndex=-1;if(wrappedPara)restoreParagraph(wrappedPara);document.querySelectorAll('.rc113-active').forEach(function(x){x.classList.remove('rc113-active');});setStatus();}
-function move(step){var ps=allParas();if(!ps.length)return;var ni=Math.max(0,Math.min(ps.length-1,(paraIndex<0?0:paraIndex)+step));if(wrappedPara)restoreParagraph(wrappedPara);paraIndex=ni;beginParagraph(ps[ni],performance.now());}
-
-function bind(){if(afBtn)afBtn.onclick=function(e){e.preventDefault();e.stopPropagation();if(running)pause();else start(!paused);};if(ppBtn)ppBtn.onclick=function(e){e.preventDefault();e.stopPropagation();if(running)pause();else start(!paused);};if(stopBtn)stopBtn.onclick=function(e){e.preventDefault();e.stopPropagation();stop();};if(prevCtl)prevCtl.onclick=function(e){e.preventDefault();e.stopPropagation();move(-1);};if(nextCtl)nextCtl.onclick=function(e){e.preventDefault();e.stopPropagation();move(1);};}
+function pause(){if(!running)return;cancelAnimationFrame(rafId);pausedElapsed=elapsedAt(performance.now());running=false;paused=true;setStatus();}
+function resume(){if(!paused||waiting)return;startTs=performance.now();running=true;paused=false;setStatus();rafId=requestAnimationFrame(frame);}
+function stop(){cancelAnimationFrame(rafId);running=false;paused=false;waiting=false;startTs=0;pausedElapsed=0;restoreWrapped();document.querySelectorAll('.rc114-active').forEach(function(x){x.classList.remove('rc114-active');});setStatus();}
+function move(step){var ps=allParas();if(!ps.length)return;var ni=Math.max(0,Math.min(ps.length-1,(paraIndex<0?0:paraIndex)+step));restoreWrapped();paraIndex=ni;beginParagraph(ps[ni],performance.now());}
+function bind(){if(afBtn)afBtn.onclick=function(e){e.preventDefault();e.stopPropagation();if(running)pause();else if(paused)resume();else start(true);};if(ppBtn)ppBtn.onclick=function(e){e.preventDefault();e.stopPropagation();if(running)pause();else if(paused)resume();else start(true);};if(stopBtn)stopBtn.onclick=function(e){e.preventDefault();e.stopPropagation();stop();};if(prevCtl)prevCtl.onclick=function(e){e.preventDefault();e.stopPropagation();move(-1);};if(nextCtl)nextCtl.onclick=function(e){e.preventDefault();e.stopPropagation();move(1);};var eb=document.getElementById('rc114EyeBtn'),sb=document.getElementById('rc114SoftBtn');if(eb)eb.onclick=function(){setMode('eye',true);};if(sb)sb.onclick=function(){setMode('soft',true);};}
 bind();
 
-/* Navigation selects chapter and resets the clean engine; it never auto-starts. */
 var baseGoTo=window.goTo;window.goTo=function(id){stop();var r;try{r=baseGoTo?baseGoTo.apply(this,arguments):undefined;}catch(_){r=undefined;}if(id&&id!=='beranda'){requestAnimationFrame(function(){var sec=document.getElementById(id),p=sec?.querySelector('.para');if(p){setActive(p);stableScroll(p,true);}});}return r;};
+window.addEventListener('smartcountercomplete',function(){if(!waiting)return;waiting=false;paused=false;var ps=allParas();if(paraIndex<ps.length-1){restoreWrapped();beginParagraph(ps[paraIndex+1],performance.now());}else{running=false;setStatus();}});
+window.addEventListener('smartcounterexit',function(){if(!waiting)return;waiting=false;paused=false;var ps=allParas();if(paraIndex<ps.length-1){restoreWrapped();beginParagraph(ps[paraIndex+1],performance.now());}else{running=false;setStatus();}});
 
-window.addEventListener('smartcountercomplete',function(){if(!waiting)return;waiting=false;paused=false;running=true;var ps=allParas();if(paraIndex<ps.length-1){if(wrappedPara)restoreParagraph(wrappedPara);beginParagraph(ps[paraIndex+1],performance.now());}else{running=false;setStatus();}});
-window.addEventListener('smartcounterexit',function(){if(!waiting)return;waiting=false;paused=false;running=true;var ps=allParas();if(paraIndex<ps.length-1){if(wrappedPara)restoreParagraph(wrappedPara);beginParagraph(ps[paraIndex+1],performance.now());}else{running=false;setStatus();}});
-
-/* One integrated speed control. Lower value = faster. */
 var sr=document.getElementById('rc113SpeedRange'),so=document.getElementById('rc113SpeedOut');
-function applySpeed(v,announce){speed=Math.max(.5,Math.min(2,Number(v)||1));if(sr)sr.value=String(speed);if(so){var desc=speed===1?'Normal':speed<1?'Lebih cepat':'Lebih lambat';so.textContent=speed.toFixed(2).replace('.',',')+'× • '+desc;}try{localStorage.setItem('tqv3b3-rc113ReadSpeed',String(speed));localStorage.setItem('tqv3b3-focusTempo',String(speed));}catch(_){}
+function applySpeed(v,announce){var oldMs=msPerChar(),now=performance.now(),prog=0;if(running&&currentChars.length)prog=elapsedAt(now)/oldMs;speed=Math.max(.5,Math.min(2,Number(v)||1));if(sr)sr.value=String(speed);if(so){var desc=speed===1?'Normal':speed<1?'Lebih cepat':'Lebih lambat';so.textContent=speed.toFixed(2).replace('.',',')+'× • '+desc;}try{localStorage.setItem('tqv3b3-rc114ReadSpeed',String(speed));localStorage.setItem('tqv3b3-focusTempo',String(speed));}catch(_){}
 var lpm=document.getElementById('lpmRange');if(lpm){lpm.value=String(Math.max(10,Math.min(420,Math.round(200/speed/5)*5)));try{lpm.dispatchEvent(new Event('input',{bubbles:true}));}catch(_){}}
 var kr=document.getElementById('karaokeParagraphRange');if(kr){kr.value=String(Math.max(2,Math.min(30,7.5*speed)));try{kr.dispatchEvent(new Event('input',{bubbles:true}));}catch(_){}}
-if(running){startTs=performance.now()-(Math.max(0,lastIndex)*msPerChar());}
-if(announce){try{toast('Kecepatan baca '+so.textContent);}catch(_){}}}
-try{var saved=Number(localStorage.getItem('tqv3b3-rc113ReadSpeed'));if(Number.isFinite(saved))speed=Math.max(.5,Math.min(2,saved));}catch(_){}
-if(sr){sr.oninput=function(){applySpeed(sr.value,false);};sr.onchange=function(){applySpeed(sr.value,true);};}applySpeed(speed,false);
-
-window.addEventListener('pageshow',function(){stop();},{passive:true});
-setStatus();
+if(running){pausedElapsed=prog*msPerChar();startTs=now;}if(announce){try{toast('Kecepatan baca '+so.textContent);}catch(_){}}}
+try{var sv=Number(localStorage.getItem('tqv3b3-rc114ReadSpeed')||localStorage.getItem('tqv3b3-rc113ReadSpeed'));if(Number.isFinite(sv))speed=Math.max(.5,Math.min(2,sv));var sm=localStorage.getItem('tqv3b3-rc114HighlightMode');if(sm)mode=sm;}catch(_){}
+if(sr){sr.oninput=function(){applySpeed(sr.value,false);};sr.onchange=function(){applySpeed(sr.value,true);};}applySpeed(speed,false);setMode(mode,false);
+window.addEventListener('pageshow',function(){stop();},{passive:true});setStatus();
 })();
 </script>
 
