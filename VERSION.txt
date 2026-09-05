@@ -1,3 +1,2 @@
-AMALAN MUSLIM
-RC106
-Fine Tuning Offline
+RC107 — RC106 baseline + Cover/Handoff/Standalone Auto Fokus Speed
+2026-09-05

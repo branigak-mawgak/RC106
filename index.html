@@ -111,7 +111,7 @@ body.focus .para.af-next-preview{opacity:.60!important;filter:saturate(.78)!impo
 </style>
 <style id="build79Styles">
 .cover-ziarah{position:relative;min-height:78vh;padding:0!important;overflow:hidden;border-radius:22px;background:#073b2b;display:flex;align-items:flex-end;justify-content:center}
-.cover-ziarah .cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
+.cover-ziarah .cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;z-index:0;background:#073b2b}
 .cover-ziarah:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),transparent 22%,transparent 78%,rgba(0,0,0,.62));z-index:1;pointer-events:none}
 .cover-date{position:absolute;top:14px;z-index:3;background:rgba(4,56,40,.94);color:#fff7cc;border:2px solid #d7bd62;border-radius:999px;padding:8px 12px;font-weight:800;font-size:clamp(11px,2.7vw,16px);max-width:46%;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.25)}
 .cover-date-left{left:12px}.cover-date-right{right:12px}.cover-actions{position:relative;z-index:3;margin-bottom:18px;display:flex;justify-content:flex-start;padding-left:12px}
@@ -1301,7 +1301,7 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 @media(max-width:520px){#rc71VtpSpeedBand{min-width:62px;font-size:10px}}
 </style>
 </head>
-<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC106-HF2-COMMIT-READY">
+<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC107-RC106-BASELINE-COVER-HANDOFF-AF-SPEED">
 <button aria-label="Smart Counter manual" id="manualSmartCounterBtn" title="Smart Counter Manual" type="button">🔢</button><button aria-label="Kurangi satu hitungan" class="counter-undo" id="counterUndo" type="button">↶ Kurangi</button>
 <button aria-label="Lanjutkan Auto Fokus dan tutup Smart Counter" class="counter-continue" id="counterContinue" type="button">▶ Lanjut Auto Fokus</button>
 <button aria-label="Tambah hitungan dzikir" class="counter-fab" id="counterFab" type="button"><span class="counter-value" id="counterValue">0 / 33</span><span class="counter-mini-progress"><i id="counterProgress"></i></span><span class="counter-label" id="counterLabel">Dzikir</span><span class="counter-hint">Ketuk +1</span></button><div id="counterFloatActions" aria-label="Kontrol Smart Counter"><button aria-label="Reset hitungan ke 0" id="counterResetZero" title="Reset ke 0" type="button">↺</button><button aria-label="Exit Smart Counter" id="counterExit" title="Exit Smart Counter" type="button">✕</button></div>
@@ -1423,6 +1423,7 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 <div class="notes-list" id="notesList"></div><div class="empty-state" id="notesEmpty">Belum ada diary.</div></section></article>
 </main><footer class="bottom"><button class="action" onclick="goTo('beranda')">⌂ Home</button><button class="action nav-fullscreen-btn" id="navFullscreenBtn" aria-label="Layar penuh" title="Layar penuh">⛶</button><button class="action" id="themeNavBtn" aria-label="Ganti tema gelap/terang" title="Ganti tema">◐ Tema</button><button class="action" id="smartCounterNavBtn" aria-label="Buka Smart Counter" title="Smart Counter">🔢 Counter</button><button class="action nav-step" id="prevBtn" aria-label="Previous" title="Previous">‹‹</button><button class="action" id="focusBtn">Fokus</button><button class="action primary" id="autoBtn">▶ Scroll</button><button class="action" id="autoFocusBtn">◎ Auto Fokus</button><button class="action nav-step" id="nextBtn" aria-label="Next" title="Next">››</button><button class="action" id="fontDownBtn">A−</button><button class="action" id="fontBtn">A+</button><button class="action" id="checkpointBtn">📍 Simpan</button><button class="action" id="editBtn">✏️ Edit</button></footer></div><div class="drawer" id="drawer"><div class="shade"></div><aside class="panel"><button aria-label="Tutup menu" class="icon" id="closeBtn">✕</button><h3>Daftar Isi</h3><input class="searchbox" id="search" placeholder="Cari kata dalam bacaan..."/><button class="action primary" id="manageTocBtn" style="width:100%;margin:14px 0">☰ Atur Daftar Isi</button><div class="toc-group" data-menu-id="panduan-ziarah"><button class="toc-head"><span>🕌 Panduan Ziarah Kubur</span><b>+</b></button><div class="toc-list">
 <button onclick="goTo('panduan-ziarah')">Buka</button></div></div><div class="toc-group" data-menu-id="tawasulan"><button class="toc-head"><span>📿 TAWASULAN</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tawasulan')">Buka</button><small>Bacaan Tawassul</small></div></div><div class="toc-group" data-menu-id="surat-yasin-ziarah"><button class="toc-head"><span>📖 Surat Yasin</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-yasin-ziarah')">Buka</button><small>83 ayat • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="tahlil-ziarah"><button class="toc-head"><span>📿 Tahlil</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tahlil-ziarah')">Buka</button><small>Bacaan Tahlil • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="doa-tahlil"><button class="toc-head"><span>🤲 DOA TAHLIL</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-tahlil')">Buka</button><small>Doa penutup Tahlil</small></div></div><div class="toc-group" data-menu-id="surat-waqiah"><button class="toc-head"><span>🌾 Surat Al-Waqi’ah</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-waqiah')">Buka</button><small>96 ayat</small></div></div><div class="toc-group" data-menu-id="surat-mulk"><button class="toc-head"><span>🌙 Surat Al-Mulk</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-mulk')">Buka</button><small>30 ayat</small></div></div><div class="toc-group" data-menu-id="yasin-waqiah-tabarok"><button class="toc-head"><span>📚 Yasin Waqiah Tabarok</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('yasin-waqiah-tabarok')">Buka</button><small>Yasin • Al-Waqi’ah • Al-Mulk</small></div></div><div class="toc-group" data-menu-id="doa-1"><button class="toc-head"><span>🤲 Doa Setelah Sholat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-1')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="doa-2"><button class="toc-head"><span>⭐ Doa Hajat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-2')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="library-bacaan"><button class="toc-head"><span>📚 Library Bacaan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('library-bacaan')">Buka</button><small>Koleksi bacaan</small></div></div><div class="toc-group" data-menu-id="galeri-foto"><button class="toc-head"><span>🎞️ Galeri Media</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('galeri-foto')">Buka</button><small>Foto, Audio &amp; Video</small></div></div><div class="toc-group" data-menu-id="catatan"><button class="toc-head"><span>📝 Catatan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('catatan')">Buka</button><small>Catatan pribadi</small></div></div><h3>Pengaturan</h3><div class="settings-row"><button data-theme="emerald">Emerald</button><button data-theme="sepia">Sepia</button><button data-theme="dark">Gelap</button></div><div class="settings-row"><button id="speedDown">Scroll −</button><button id="speedLabel">1.0×</button><button id="speedUp">Scroll +</button><button id="speedTurbo" type="button">⚡ +60</button></div><div class="settings-row"><button id="focusSpeedDown">Fokus lebih lambat</button><button id="focusSpeedLabel">0,75×</button><button id="focusSpeedUp">Fokus lebih cepat</button></div><div class="control-card"><label>Kecepatan Auto Scroll: <output id="lpmOut">200 baris/menit</output></label><input id="lpmRange" max="420" min="10" step="5" type="range" value="200"/><div class="hint">Kecepatan dihitung berdasarkan tinggi baris aktual. Font lebih besar otomatis disesuaikan agar ritme baca tetap stabil.</div></div><div class="control-card"><label>Auto Fokus</label><select id="focusMode"><option selected="" value="phrase">Per frasa</option><option value="paragraph">Per paragraf</option></select><div class="hint">Auto Fokus memiliki ritme sendiri dan tidak bergantung pada kecepatan Auto Scroll.</div></div>
+<div class="control-card" id="rc107FocusSpeedCard"><label>Kecepatan Auto Fokus: <output id="rc107FocusSpeedOut">1,00× — Normal</output></label><input id="rc107FocusSpeedRange" max="2" min="0.5" step="0.05" type="range" value="1"/><div class="hint">0,50×–2,00× • 1,00× = Normal • lebih kecil = lebih cepat • lebih besar = lebih lambat. Terpisah dari Auto Scroll.</div></div>
 <div class="control-card" id="paragraphKaraokeCard">
 <label>🎤 Karaoke per paragraf: <output id="karaokeParagraphOut">7,5 dtk</output></label>
 <input id="karaokeParagraphRange" max="30" min="2" step="0.5" type="range" value="7.5"/>
@@ -1697,6 +1698,76 @@ function positionActiveParagraph(target,mode='paragraph'){
     reader.scrollTo({top,behavior:'smooth'});
   });
 }
+function focusPhrase(){
+  document.querySelectorAll('.focus-word').forEach(x=>{x.classList.remove('focus-word');x.style.removeProperty('--karaoke-duration')});
+  const ps=currentPhrases();
+  if(!ps.length)return;
+  phraseIndex=Math.min(phraseIndex,ps.length-1);
+  const el=ps[phraseIndex];
+  const duration=phraseDuration();
+  el.style.setProperty('--karaoke-duration',Math.max(700,duration-80)+'ms');
+  requestAnimationFrame(()=>{
+    void el.offsetWidth;
+    el.classList.add('focus-word');
+    positionActiveParagraph(el,'phrase');
+  });
+}
+function phraseDuration(){
+  const ps=currentPhrases();
+  const words=(ps[phraseIndex]?.textContent.trim().split(/\s+/).length||2);
+  // Auto Focus timing is deliberately independent from Auto Scroll LPM.
+  return Math.max(800,words*900*focusTempo);
+}
+function startPhraseFocus(){
+  if(window.__RC103_STANDALONE)return;
+  clearTimeout(phraseTimer);
+  if(!autoFocus || !running || waitingCounter)return;
+  const p=paras[active];
+  if(!p)return;
+  const ps=currentPhrases();
+  if(!ps.length){
+    // Safety fallback: semanticize the active paragraph if its phrase spans
+    // were lost after navigation/editor updates.
+    try{semanticize(p,p.dataset.phrases||'',p.dataset.sourceText||p.innerText)}catch(e){}
+  }
+  const phrases=currentPhrases();
+  if(!phrases.length)return;
+  phraseIndex=Math.max(0,Math.min(phraseIndex,phrases.length-1));
+  focusPhrase();
+  const ms=phraseDuration();
+  phraseTimer=setTimeout(()=>{
+    if(!autoFocus || !running || waitingCounter)return;
+    phraseIndex++;
+    if(phraseIndex < currentPhrases().length){
+      startPhraseFocus();
+      return;
+    }
+    // Full phrase pass completed. Only now hand an explicit repeat target
+    // to Smart Counter.
+    phraseIndex=0;
+    const repeat=repeatTarget(p);
+    if(repeat>0 && !waitingCounter && !suppressRepeat){
+      triggerCounter(p);
+      return;
+    }
+    if(active < paras.length-1){
+      suppressRepeat=false;
+      setActive(active+1,true);
+      if(autoFocus && running && !waitingCounter) startPhraseFocus();
+    }else{
+      running=false; autoFocus=false; paused=false; clearClocks(); render();
+      try{toast('Auto Fokus selesai')}catch(e){}
+    }
+  },ms);
+}
+
+toggleAutoFocus=function(force){
+  const desired=typeof force==='boolean'?force:!autoFocus;
+  if(desired){ start(true); }
+  else { pause(); }
+};
+autoFocusBtn.onclick=()=>toggleAutoFocus();
+document.getElementById('focusMode').onchange=()=>{if(autoFocus){const fm=document.getElementById('focusMode');if(fm)fm.value='phrase';}phraseIndex=0;if(autoFocus&&running)startPhraseFocus()};
 // Smart resume and checkpoint
 function saveResume(manual=false){const p=paras[active],data={active,scroll:reader.scrollTop,chapter:p?.dataset.chapter||'',ayah:p?.dataset.ayah||'',text:p?.textContent.trim().slice(0,80)||'',time:new Date().toISOString(),manual};SAFE_STORE.setItem(B4KEY+'resume',JSON.stringify(data));renderResume();if(manual)toast('Penanda bacaan disimpan')}
 function renderResume(){let d;try{d=JSON.parse(SAFE_STORE.getItem(B4KEY+'resume')||'null')}catch{};const txt=document.getElementById('resumeText'),time=document.getElementById('resumeTime');if(!d){txt.textContent='Belum ada posisi tersimpan.';time.textContent='';return}txt.textContent=(d.chapter||'Bacaan').replaceAll('-',' ') +(d.ayah?' • ayat '+d.ayah:'')+' — '+d.text;time.textContent='Disimpan '+new Date(d.time).toLocaleString('id-ID')}
@@ -1999,6 +2070,324 @@ body.focus .para.active,body.focus .para.af76-active{transition:opacity .38s eas
 <button aria-label="Stop" class="stop" id="af76Stop" title="Stop" type="button">⏹</button>
 <button aria-label="Next" id="af76Next" title="Next" type="button">››</button>
 </nav>
+<script id="build76Script">
+(()=>{
+  const ctl=document.getElementById('af76Controller'), status=document.getElementById('af76Status');
+  const pp=document.getElementById('af76PlayPause'), stop=document.getElementById('af76Stop');
+  const prev=document.getElementById('af76Prev'), next=document.getElementById('af76Next');
+  const cf=document.getElementById('counterFab'), cu=document.getElementById('counterUndo'), cc=document.getElementById('counterContinue');
+  let running=false, paused=false, waitingCounter=false, suppressRepeat=false, wakeLock=null, counterResumeMode='focus';
+  const coreSetActive=setActive;
+
+  function title(){const p=paras[active],sec=p?.dataset.chapter&&document.getElementById(p.dataset.chapter);return sec?.querySelector('h2')?.textContent?.trim()||'Bacaan';}
+  function repeatTarget(el){
+    if(!el)return 0;
+    const dataTarget=Number(el.dataset.repeatTarget||el.dataset.repeat||0);
+    if(dataTarget>0)return dataTarget;
+
+    const t=(el.textContent||'').replace(/\s+/g,' ').trim();
+    const matches=[...t.matchAll(/(?:^|[\s(\[])(\d{1,4})\s*[x×](?=$|[\s)\],.;:])/ig)];
+    if(matches.length){
+      // Generic: all values are accepted. For one paragraph with several values,
+      // use the last explicit target unless the paragraph already carries data-repeat-target.
+      const n=Number(matches[matches.length-1][1]||0);
+      if(n>0){
+        el.dataset.repeatTarget=String(n);
+        el.dataset.repeat=String(n);
+        el.classList.add('repeatable');
+        return n;
+      }
+    }
+
+    const m=t.match(/(?:dibaca|ulangi)\s*(\d{1,4})\s*kali/i);
+    if(m){
+      const n=Number(m[1]||0);
+      if(n>0){
+        el.dataset.repeatTarget=String(n);
+        el.dataset.repeat=String(n);
+        el.classList.add('repeatable');
+        return n;
+      }
+    }
+    return 0;
+  }
+  function clearClocks(){clearTimeout(phraseTimer);clearTimeout(focusTimer);document.querySelectorAll('.focus-word').forEach(x=>x.classList.remove('focus-word'));}
+  async function lockWake(){try{if('wakeLock' in navigator&&!wakeLock)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}
+  function unlockWake(){try{wakeLock?.release()}catch(e){}wakeLock=null;}
+  function render(){const visible=(running||paused)&&!waitingCounter;ctl.classList.toggle('show',visible);status.classList.toggle('show',visible);pp.textContent=running?'⏸':'▶';pp.title=running?'Pause':'Play';status.textContent=(running?'Auto Fokus berjalan':'Auto Fokus dijeda')+' • '+title();autoFocusBtn.textContent=running?'⏸ Auto Fokus':(paused?'▶ Lanjut Fokus':'◎ Auto Fokus');autoFocusBtn.classList.toggle('on',running);}
+  function hideCounter(){SmartDzikirCounter?.close?.();cf.classList.remove('show','af76-counter');cu.classList.remove('show','af76-counter');cc?.classList.remove('show');}
+  function triggerCounter(el){
+    const target=repeatTarget(el);
+    if(!target||waitingCounter||suppressRepeat)return false;
+    counterResumeMode = running||autoFocus ? 'autofocus' : (auto ? 'autoscroll' : 'focus');
+    waitingCounter=true;
+    // Pause focus engine while Smart Counter is active.
+    running=false;paused=true;autoFocus=false;
+    if(counterResumeMode==='autoscroll' && auto){
+      try{toggleAuto()}catch(_){auto=false;cancelAnimationFrame(raf)}
+    }
+    clearClocks();
+    ctl.classList.remove('show');status.classList.remove('show');
+    cf.classList.add('af76-counter');cu.classList.add('af76-counter');cc?.classList.add('show');
+    SmartDzikirCounter?.activate?.(el,active);
+    return true;
+  }
+  function start(resetPhrase=false){
+    if(window.__RC103_STANDALONE)return;
+    if(waitingCounter)return;
+    if(resetPhrase)phraseIndex=0;
+    clearClocks();
+    running=true; paused=false; autoFocus=true;
+    // Auto Fokus is always phrase-by-phrase. Do not inherit the old
+    // paragraph-focus preference here.
+    const fm=document.getElementById('focusMode');
+    if(fm && fm.value!=='phrase') fm.value='phrase';
+    if(!document.body.classList.contains('focus')) toggleFocus();
+    positionActiveParagraph(paras[active],'paragraph');
+    lockWake(); render();
+    // Start on the next frame so iPad/Safari has completed the focus-mode
+    // layout before the first phrase is highlighted.
+    requestAnimationFrame(()=>{
+      if(running && autoFocus && !waitingCounter) startPhraseFocus();
+    });
+  }
+  function pause(){if(!running)return;clearClocks();running=false;paused=true;autoFocus=false;render();}
+  function stopAll(reset=false){clearClocks();running=false;paused=false;waitingCounter=false;autoFocus=false;unlockWake();hideCounter();document.querySelectorAll('.af76-active').forEach(x=>x.classList.remove('af76-active'));if(reset)phraseIndex=0;render();}
+  function move(step){if(waitingCounter)return;clearClocks();phraseIndex=0;suppressRepeat=false;setActive(active+step,true);if(running&&!waitingCounter)startPhraseFocus();render();}
+
+  function updateNextParagraphPreview(){document.querySelectorAll('.af-next-preview').forEach(x=>x.classList.remove('af-next-preview'));const nextPara=paras[active+1];if(nextPara)nextPara.classList.add('af-next-preview');}
+  setActive=function(i,c=true){
+    coreSetActive(i,false);
+    document.querySelectorAll('.af76-active').forEach(x=>x.classList.remove('af76-active'));
+    const el=paras[active];
+    el?.classList.add('af76-active');
+    updateNextParagraphPreview();
+    if(c)positionActiveParagraph(el,'paragraph');
+
+    const focusModeActive=document.body.classList.contains('focus');
+    const hasRepeat=repeatTarget(el)>0;
+
+    // Auto Fokus waits until the complete phrase-highlight pass finishes.
+    // Manual Focus may still invoke Smart Counter immediately on a repeat item.
+    if(hasRepeat && !suppressRepeat && !waitingCounter && !autoFocus && focusModeActive){
+      triggerCounter(el);
+    }
+
+    suppressRepeat=false;
+    render();
+  };
+  updateNextParagraphPreview();
+
+  toggleAutoFocus=function(force){const desired=typeof force==='boolean'?force:!running;if(desired)start(!paused);else if(running)pause();else stopAll(false);};
+  autoFocusBtn.onclick=()=>toggleAutoFocus();
+
+  goTo=function(id){
+    // Saat pindah menu, hentikan timer lama terlebih dahulu. Bila Auto Fokus
+    // sebelumnya berjalan, mulai ulang otomatis dari paragraf pertama menu baru.
+    // Bila sebelumnya sudah pause, status pause tetap dipertahankan.
+    const wasRunning=running;
+    const wasPaused=paused;
+    clearClocks();
+    running=false;
+    autoFocus=false;
+    unlockWake();
+    closeDrawer();
+
+    const i=paras.findIndex(p=>p.dataset.chapter===id);
+    const sec=document.getElementById(id);
+    if(i>=0){
+      suppressRepeat=true;
+      coreSetActive(i,false);
+      active=i;
+      phraseIndex=0;
+      document.querySelectorAll('.af76-active').forEach(x=>x.classList.remove('af76-active'));
+      paras[active]?.classList.add('af76-active');
+      sec?.scrollIntoView({behavior:'auto',block:'start'});
+      positionActiveParagraph(paras[active],'paragraph');
+
+      if(wasPaused && !wasRunning){
+        // Jika pengguna memang sedang pause, hormati pause tersebut.
+        paused=true;
+        render();
+        try{toast('Auto Fokus tetap dijeda pada '+title())}catch(_){}
+      }else{
+        // FIX RC100: setiap kali pengguna membuka bacaan dari Beranda/Daftar Isi,
+        // Auto Fokus langsung dimulai. Sebelumnya hanya restart bila wasRunning,
+        // sehingga masuk ke bab baru dalam keadaan idle dan terlihat seperti
+        // Auto Fokus tidak bekerja otomatis.
+        paused=false;
+        requestAnimationFrame(()=>start(true));
+        try{toast('Auto Fokus dimulai dari awal '+title())}catch(_){}
+      }
+    }else{
+      sec?.scrollIntoView({behavior:'smooth',block:'start'});
+      paused=wasPaused;
+      render();
+    }
+  };
+  window.goTo=goTo;
+  const goToWithHifzReport=goTo;
+  goTo=function(id){goToWithHifzReport(id);if(HIFZ_SURAH[id])showHifzReport(id);};
+  window.goTo=goTo;
+
+  pp.onclick=()=>running?pause():start(false);stop.onclick=()=>stopAll(false);prev.onclick=()=>move(-1);next.onclick=()=>move(1);
+
+  function continueAfterCounter(delay=0){
+    if(!waitingCounter)return;
+    clearClocks();
+    const resume=()=>{
+      hideCounter();
+      waitingCounter=false;
+      const nextIndex=Math.min(paras.length-1,active+1);
+      suppressRepeat=true;
+      coreSetActive(nextIndex,false);
+      active=nextIndex;
+      phraseIndex=0;
+      positionActiveParagraph(paras[active],'paragraph');
+      running=true;
+      paused=false;
+      autoFocus=true;
+      lockWake();
+      render();
+      startPhraseFocus();
+    };
+    delay>0?setTimeout(resume,delay):resume();
+  }
+
+  cc?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();continueAfterCounter(0);});
+  window.addEventListener('smartcountercomplete',()=>{
+      // Target tercapai: double-beep is emitted by Smart Counter. After a
+      // short visual confirmation, automatically close the counter, advance
+      // one paragraph, and resume phrase-level Auto Fokus.
+      try{toast('✓ Target tercapai • Auto Fokus dilanjutkan')}catch(_){}
+      setTimeout(()=>continueAfterCounter(0),650);
+    });
+    window.addEventListener('smartcounterexit',()=>{
+      if(!waitingCounter)return;
+      waitingCounter=false;
+      clearClocks();
+      cf.classList.remove('show','af76-counter');
+      cu.classList.remove('show','af76-counter');
+      cc?.classList.remove('show');
+      unlockWake();
+
+      if(counterResumeMode==='autofocus'){
+        running=true;paused=false;autoFocus=true;
+        lockWake();render();startPhraseFocus();
+        try{toast('Smart Counter reset 0 • Auto Fokus dilanjutkan')}catch(_){}
+      }else if(counterResumeMode==='autoscroll'){
+        running=false;paused=false;autoFocus=false;
+        render();
+        if(!auto){try{toggleAuto()}catch(_){}}
+        try{toast('Smart Counter reset 0 • Auto Scroll dilanjutkan')}catch(_){}
+      }else{
+        running=false;paused=false;autoFocus=false;
+        if(!document.body.classList.contains('focus')){try{toggleFocus()}catch(_){}}
+        render();
+        try{toast('Smart Counter reset 0 • kembali ke Fokus')}catch(_){}
+      }
+    });
+    window.addEventListener('smartcounterfinishcontinue',()=>{
+      if(!waitingCounter)return;
+      waitingCounter=false;
+      clearClocks();
+      cf.classList.remove('show','af76-counter');
+      cu.classList.remove('show','af76-counter');
+      cc?.classList.remove('show');
+      unlockWake();
+
+      // Target tercapai + tekan (+) sekali lagi:
+      // reset counter, tutup counter, maju satu paragraf, lanjutkan mode sebelumnya.
+      try{
+        phraseIndex=0;
+        suppressRepeat=true;
+        const nextIndex=Math.min(paras.length-1,active+1);
+        coreSetActive(nextIndex,false);
+        active=nextIndex;
+        document.querySelectorAll('.af76-active').forEach(x=>x.classList.remove('af76-active'));
+        paras[active]?.classList.add('af76-active');
+        updateNextParagraphPreview();
+        positionActiveParagraph(paras[active],'paragraph');
+      }catch(_){}
+
+      if(counterResumeMode==='autofocus'){
+        running=true;paused=false;autoFocus=true;
+        lockWake();render();startPhraseFocus();
+        try{toast('Counter selesai • paragraf berikutnya • Auto Fokus lanjut')}catch(_){}
+      }else if(counterResumeMode==='autoscroll'){
+        running=false;paused=false;autoFocus=false;
+        render();
+        if(!auto){try{toggleAuto()}catch(_){}}
+        try{toast('Counter selesai • paragraf berikutnya • Auto Scroll lanjut')}catch(_){}
+      }else{
+        running=false;paused=false;autoFocus=false;
+        if(!document.body.classList.contains('focus')){try{toggleFocus()}catch(_){}}
+        render();
+        try{toast('Counter selesai • Fokus ke paragraf berikutnya')}catch(_){}
+      }
+    });
+
+  let pausedByAppSwitch=false;
+  let resumeOfferPending=false;
+
+  // Compact in-app notification. It avoids window.confirm(), which is often
+  // suppressed by Android WebView immediately after the app returns to foreground.
+  const resumeNotice=document.createElement('div');
+  resumeNotice.id='afResumeNotice';
+  resumeNotice.setAttribute('role','dialog');
+  resumeNotice.setAttribute('aria-live','polite');
+  resumeNotice.innerHTML=`<span>Auto Fokus dijeda.</span><button type="button" data-resume>▶ Lanjut</button><button type="button" data-dismiss>Tetap jeda</button>`;
+  document.body.appendChild(resumeNotice);
+
+  function hideResumeNotice(){resumeNotice.classList.remove('show');}
+
+  function pauseForBackground(){
+    if(!running||waitingCounter)return;
+    pausedByAppSwitch=true;
+    resumeOfferPending=true;
+    try{sessionStorage.setItem('afBackgroundPause','1')}catch(_){}
+    pause();
+    unlockWake();
+    hideResumeNotice();
+    try{saveResume(false)}catch(_){}
+  }
+
+  function offerBackgroundResume(){
+    if(document.visibilityState==='hidden'||waitingCounter)return;
+    const persisted=(()=>{try{return sessionStorage.getItem('afBackgroundPause')==='1'}catch(_){return false}})();
+    if(!(resumeOfferPending||persisted)||!pausedByAppSwitch&&!persisted||!paused)return;
+    resumeOfferPending=true;
+    requestAnimationFrame(()=>resumeNotice.classList.add('show'));
+  }
+
+  resumeNotice.querySelector('[data-resume]').onclick=()=>{
+    hideResumeNotice();
+    resumeOfferPending=false;
+    pausedByAppSwitch=false;
+    try{sessionStorage.removeItem('afBackgroundPause')}catch(_){}
+    start(false);
+  };
+  resumeNotice.querySelector('[data-dismiss]').onclick=()=>{
+    hideResumeNotice();
+    resumeOfferPending=false;
+    pausedByAppSwitch=false;
+    try{sessionStorage.removeItem('afBackgroundPause')}catch(_){}
+    render();
+    try{toast('Auto Fokus tetap dijeda')}catch(_){}
+  };
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')pauseForBackground();
+    else setTimeout(offerBackgroundResume,180);
+  });
+  window.addEventListener('pagehide',pauseForBackground);
+  window.addEventListener('pageshow',()=>setTimeout(offerBackgroundResume,180));
+  window.addEventListener('focus',()=>setTimeout(offerBackgroundResume,180));
+  document.addEventListener('keydown',e=>{if(!(running||paused))return;if(e.code==='Space'){e.preventDefault();running?pause():start(false)}if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key==='Escape')stopAll(false)});
+  reader.addEventListener('click',e=>{if(waitingCounter||e.target.closest('button,a,input,textarea,select,.modal,.drawer'))return;if(running||paused){ctl.classList.add('show');status.classList.add('show');}}, {passive:true});
+  stopAll(false);
+})();
+</script>
 <style id="galleryFix77Style">
 #galeri-foto .gallery-status{font-size:12px;color:var(--muted);margin:8px 0 12px}
 #galeri-foto .gallery-card img{cursor:pointer}
@@ -4225,85 +4614,319 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
 }
 #rc103AfStatus.show{display:block}
 </style>
-<style id="rc106-highlight-engine-style">
-/* RC106 HF2: deterministic phrase highlight. One phrase owns the sweep. */
+<style id="rc106-autofocus-smooth">
+/* RC106: smooth karaoke/highlight transition; no abrupt phrase flash. */
 body.focus .para.rc103-active .semantic.rc103-focus-word{
-  opacity:1!important;display:inline!important;white-space:normal!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
-  background-repeat:no-repeat!important;background-position:left center!important;
-  background-size:0% 100%!important;border-radius:6px!important;
-  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
-  animation:rc106FocusSweep var(--karaoke-duration,2200ms) linear forwards!important;
-  will-change:background-size;
+  animation:rc106FocusSweep var(--karaoke-duration,2200ms) cubic-bezier(.22,.61,.36,1) forwards!important;
+  transition:opacity .22s ease,filter .22s ease,background-color .22s ease!important;
+  will-change:background-size,opacity;
 }
-body.focus .para.rc103-handoff-prev .semantic.rc103-focus-word{
-  opacity:1!important;display:inline!important;white-space:normal!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
-  background-repeat:no-repeat!important;background-position:left center!important;
-  background-size:100% 100%!important;border-radius:6px!important;
-  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
-  animation:none!important;
-}
-@keyframes rc106FocusSweep{
-  0%{background-size:0% 100%}
-  35%{background-size:100% 100%}
-  100%{background-size:100% 100%}
-}
+@keyframes rc106FocusSweep{from{background-size:0% 100%;filter:saturate(.94)}to{background-size:100% 100%;filter:saturate(1)}}
+/* RC107: cross-paragraph handoff. The final word stays visible while the next paragraph starts. */
+body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in srgb,var(--accent2) 34%,transparent)!important;border-radius:6px!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent2) 10%,transparent)!important;transition:opacity .24s ease!important}
+#rc107FocusSpeedRange{width:100%;accent-color:var(--accent)}
 </style>
 <div id="rc103AfStatus" aria-live="polite">Auto Fokus</div>
 <script id="rc103-standalone-autofocus">
 (function(){
   'use strict';
   window.__RC103_STANDALONE=true;
-  var reader=document.getElementById('reader'), afBtn=document.getElementById('autoFocusBtn'), status=document.getElementById('rc103AfStatus');
-  var running=false, paused=false, waiting=false, paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, handoffTimer=0, runId=0;
-  var HANDOFF_MS=240;
-  function paras(){return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));}
-  function current(){var ps=paras();return ps[paraIndex]||document.querySelector('#reader .para.rc103-active')||null;}
-  function phrases(el){return el?Array.from(el.querySelectorAll('.semantic')):[];}
-  function clearTimers(){clearTimeout(timer);clearTimeout(scrollTimer);clearTimeout(handoffTimer);timer=scrollTimer=handoffTimer=0;}
-  function release(node){if(!node)return;node.classList.remove('rc103-focus-word','rc103-handoff-prev');node.style.removeProperty('--karaoke-duration');node.style.removeProperty('animation');node.style.removeProperty('background-size');}
-  function clearAllHighlights(){document.querySelectorAll('.rc103-focus-word').forEach(release);document.querySelectorAll('.rc103-handoff-prev').forEach(release);}
-  function setStatus(t){if(status)status.textContent=t;}
-  function render(){if(!afBtn)return;afBtn.textContent=running?'⏸ Auto Fokus':(paused?'▶ Lanjut Fokus':'◎ Auto Fokus');afBtn.classList.toggle('on',running);if(status){status.classList.toggle('show',running||paused||waiting);setStatus(waiting?'Smart Counter':(running?'Auto Fokus • Phrase '+(phraseIndex+1):(paused?'Auto Fokus dijeda':'Auto Fokus')));}}
-  function ensureFocus(){if(!document.body.classList.contains('focus')){document.body.classList.add('focus');document.getElementById('focusBtn')?.classList.add('on');}}
-  function activatePara(el){var ps=paras();ps.forEach(function(p){p.classList.remove('rc103-active');});document.querySelectorAll('#reader .para.active').forEach(function(p){p.classList.remove('active');});if(el){el.classList.add('rc103-active','active');paraIndex=ps.indexOf(el);}}
-  function tempo(){var v=1;try{v=Number(localStorage.getItem('amp-b4-focusTempo')||localStorage.getItem('tqv3b3-focusTempo')||1);}catch(_){}return Math.max(.50,Math.min(2.00,Number.isFinite(v)?v:1));}
-  function duration(node){var words=(node?.textContent||'').trim().split(/\s+/).filter(Boolean).length||2;return Math.max(750,Math.min(5000,words*520*tempo()));}
-  function scrollToPara(el,force){if(!el||!reader)return;var rr=reader.getBoundingClientRect(),tr=el.getBoundingClientRect(),vh=reader.clientHeight,top=tr.top-rr.top,bottom=tr.bottom-rr.top;if(!force&&top>=vh*.18&&bottom<=vh*.72)return;var delta=(top+tr.height*.18)-vh*.30;if(Math.abs(delta)<22&&!force)return;var max=Math.max(0,reader.scrollHeight-reader.clientHeight),next=Math.max(0,Math.min(max,reader.scrollTop+delta));clearTimeout(scrollTimer);scrollTimer=setTimeout(function(){try{reader.scrollTo({top:next,behavior:'smooth'});}catch(_){reader.scrollTop=next;}},40);}
-  function activate(node,ms){if(!node)return;node.classList.remove('rc103-focus-word');node.style.removeProperty('--karaoke-duration');void node.offsetWidth;node.style.setProperty('--karaoke-duration',ms+'ms');node.classList.add('rc103-focus-word');void node.offsetWidth;}
-  function repeatTarget(el){if(!el)return 0;var d=Number(el.dataset.repeatTarget||el.dataset.repeat||0);if(d>0)return d;var m=(el.textContent||'').replace(/\s+/g,' ').match(/(?:^|[\s(\[])(\d{1,4})\s*[x×](?=$|[\s)\],.;:])/i);if(m){d=Number(m[1]);if(d>0){el.dataset.repeatTarget=String(d);el.dataset.repeat=String(d);el.classList.add('repeatable');}}return d;}
-  function openCounter(el){var target=repeatTarget(el);if(!target||waiting)return false;clearTimers();waiting=true;running=false;paused=true;render();try{window.SmartDzikirCounter?.activate?.(el,paraIndex);}catch(_){}return true;}
-  function playPhrase(){
+
+  var reader=document.getElementById('reader');
+  var afBtn=document.getElementById('autoFocusBtn');
+  var status=document.getElementById('rc103AfStatus');
+  var running=false, paused=false, waiting=false;
+  var paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, handoffTimer=0, startedAt=0;
+  var focusTempo=1.00, HANDOFF_MS=240;
+
+  function paras(){
+    return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));
+  }
+  function current(){
+    var ps=paras();
+    if(paraIndex>=0 && ps[paraIndex]) return ps[paraIndex];
+    return document.querySelector('#reader .para.rc103-active') ||
+           document.querySelector('#reader .para.active') || null;
+  }
+  function clearHighlight(){
+    document.querySelectorAll('.rc103-focus-word').forEach(function(x){
+      x.classList.remove('rc103-focus-word');
+      x.style.removeProperty('--karaoke-duration');
+    });
+  }
+  function clearTimer(){clearTimeout(timer);clearTimeout(scrollTimer);clearTimeout(handoffTimer);}
+  function setStatus(t){
+    if(status) status.textContent=t;
+  }
+  function render(){
+    if(!afBtn)return;
+    afBtn.textContent=running?'⏸ Auto Fokus':(paused?'▶ Lanjut Fokus':'◎ Auto Fokus');
+    afBtn.classList.toggle('on',running);
+    if(status){
+      status.classList.toggle('show',running||paused||waiting);
+      setStatus(waiting?'Smart Counter • '+(current()?.dataset.repeatTitle||'Pengulangan'):
+        (running?'Auto Fokus • Phrase '+(phraseIndex+1):
+        (paused?'Auto Fokus dijeda':'Auto Fokus')));
+    }
+  }
+  function ensureFocusMode(){
+    if(!document.body.classList.contains('focus')){
+      document.body.classList.add('focus');
+      document.getElementById('focusBtn')?.classList.add('on');
+    }
+  }
+  function activePara(el){
+    var ps=paras();
+    paraIndex=ps.indexOf(el);
+    ps.forEach(function(p){p.classList.remove('rc103-active');});
+    document.querySelectorAll('#reader .para.active').forEach(function(p){p.classList.remove('active');});
+    if(el){
+      el.classList.add('rc103-active','active');
+    }
+    return el;
+  }
+  function stableScroll(el,force){
+    if(!el||!reader)return;
+    var rr=reader.getBoundingClientRect(), tr=el.getBoundingClientRect();
+    var vh=reader.clientHeight;
+    var top=tr.top-rr.top, bottom=tr.bottom-rr.top;
+    var target=vh*.30;
+    /* Only reposition when the paragraph is outside a broad dead-band.
+       Phrase changes within the same paragraph do not cause hunting. */
+    if(!force && top>=vh*.18 && bottom<=vh*.72)return;
+    var delta=(top+(tr.height*.18))-target;
+    if(Math.abs(delta)<22 && !force)return;
+    var max=Math.max(0,reader.scrollHeight-reader.clientHeight);
+    var next=Math.max(0,Math.min(max,reader.scrollTop+delta));
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(function(){
+      try{reader.scrollTo({top:next,behavior:'smooth'});}catch(_){reader.scrollTop=next;}
+    },40);
+  }
+  function phraseNodes(el){
+    return el?Array.from(el.querySelectorAll('.semantic')):[];
+  }
+  function durationFor(el,node){
+    var words=(node?.textContent||'').trim().split(/\s+/).filter(Boolean).length||2;
+    /* Standalone timing only. 1.00 = normal; <1 faster; >1 slower. */
+    return Math.max(520,Math.min(7000,words*520*focusTempo));
+  }
+  function speedLabel(v){
+    var n=Number(v)||1;
+    return n.toFixed(2).replace('.',',')+'×'+(Math.abs(n-1)<.001?' — Normal':(n<1?' — Lebih cepat':' — Lebih lambat'));
+  }
+  function setFocusTempo(v,announce){
+    focusTempo=Math.max(.50,Math.min(2.00,Number(v)||1));
+    var range=document.getElementById('rc107FocusSpeedRange'), out=document.getElementById('rc107FocusSpeedOut');
+    if(range)range.value=String(focusTempo); if(out)out.textContent=speedLabel(focusTempo);
+    try{localStorage.setItem('tqv3b3-focusTempo',String(focusTempo));}catch(_){}
+    if(announce){try{toast('Kecepatan Auto Fokus '+speedLabel(focusTempo))}catch(_){}}
+    /* Do not restart or call any legacy Auto Fokus engine. The new value is used by the next phrase. */
+  }
+  function markLastWordForHandoff(el){
+    document.querySelectorAll('.rc103-handoff-old').forEach(function(x){x.replaceWith(document.createTextNode(x.textContent||''));});
+    var sem=phraseNodes(el).slice(-1)[0]; if(!sem)return null;
+    var walker=document.createTreeWalker(sem,NodeFilter.SHOW_TEXT); var nodes=[],n; while(n=walker.nextNode())nodes.push(n);
+    for(var i=nodes.length-1;i>=0;i--){
+      var t=nodes[i], m=(t.nodeValue||'').match(/(\S+)(\s*)$/); if(!m)continue;
+      var before=(t.nodeValue||'').slice(0,m.index), word=m[1], tail=m[2]||'';
+      var span=document.createElement('span'); span.className='rc103-handoff-old'; span.textContent=word;
+      var frag=document.createDocumentFragment(); if(before)frag.appendChild(document.createTextNode(before)); frag.appendChild(span); if(tail)frag.appendChild(document.createTextNode(tail));
+      t.parentNode.replaceChild(frag,t); return span;
+    }
+    return null;
+  }
+  function releaseHandoff(){
+    document.querySelectorAll('.rc103-handoff-old').forEach(function(x){x.replaceWith(document.createTextNode(x.textContent||''));});
+  }
+  function repeatTarget(el){
+    if(!el)return 0;
+    var d=Number(el.dataset.repeatTarget||el.dataset.repeat||0);
+    if(d>0)return d;
+    var t=(el.textContent||'').replace(/\s+/g,' ');
+    var m=t.match(/(?:^|[\s(\[])(\d{1,4})\s*[x×](?=$|[\s)\],.;:])/i);
+    if(m){
+      d=Number(m[1]||0);
+      if(d>0){
+        el.dataset.repeatTarget=String(d);
+        el.dataset.repeat=String(d);
+        el.classList.add('repeatable');
+      }
+    }
+    return d;
+  }
+  function openCounter(el){
+    var target=repeatTarget(el);
+    if(!target||waiting)return false;
+    clearTimer(); clearHighlight();
+    waiting=true; running=false; paused=true;
+    render();
+    try{
+      window.SmartDzikirCounter?.activate?.(el,paraIndex);
+    }catch(_){}
+    return true;
+  }
+  function focusPhrase(){
     if(!running||waiting)return;
-    var myRun=runId,el=current(),ps=phrases(el);
-    if(!el||!ps.length){advanceParagraph();return;}
-    if(phraseIndex>=ps.length){advanceParagraph();return;}
-    var node=ps[phraseIndex], old=el.querySelector('.rc103-focus-word');
-    if(old&&old!==node)release(old);
-    ps.forEach(function(x){if(x!==node&&x!==old)release(x);});
-    var ms=duration(node);activate(node,ms);scrollToPara(el,phraseIndex===0);render();clearTimeout(timer);
-    timer=setTimeout(function(){if(!running||waiting||myRun!==runId||current()!==el)return;phraseIndex++;if(phraseIndex<phrases(el).length){playPhrase();return;}if(repeatTarget(el)&&openCounter(el))return;advanceParagraph();},ms);
+    var el=current(), ps=phraseNodes(el);
+    if(!el||!ps.length){nextParagraph();return;}
+    phraseIndex=Math.max(0,Math.min(phraseIndex,ps.length-1));
+    clearHighlight();
+    var node=ps[phraseIndex];
+    node.classList.add('rc103-focus-word');
+    node.style.setProperty('--karaoke-duration',durationFor(el,node)+'ms');
+    /* Scroll only at paragraph boundaries or when the paragraph leaves the
+       dead-band; never recenter every phrase. */
+    stableScroll(el,phraseIndex===0);
+    render();
+    timer=setTimeout(function(){
+      if(!running||waiting)return;
+      phraseIndex++;
+      if(phraseIndex<phraseNodes(el).length){
+        focusPhrase();
+      }else{
+        var target=repeatTarget(el);
+        if(target && openCounter(el))return;
+        nextParagraph();
+      }
+    },durationFor(el,node));
   }
-  function advanceParagraph(){
-    clearTimeout(timer);
-    var ps=paras(),old=ps[paraIndex],oldNode=old?.querySelector('.rc103-focus-word');
-    if(paraIndex>=ps.length-1){release(oldNode);running=false;paused=false;render();try{toast('Auto Fokus selesai')}catch(_){}return;}
-    var next=ps[paraIndex+1],nextPs=phrases(next);paraIndex++;phraseIndex=0;activatePara(next);ensureFocus();running=true;paused=false;waiting=false;render();
-    if(!nextPs.length){advanceParagraph();return;}
-    var nextNode=nextPs[0],ms=duration(nextNode);activate(nextNode,ms);scrollToPara(next,true);
-    if(oldNode){oldNode.classList.add('rc103-handoff-prev');clearTimeout(handoffTimer);handoffTimer=setTimeout(function(){release(oldNode);},HANDOFF_MS);}
-    var myRun=runId;clearTimeout(timer);timer=setTimeout(function(){if(!running||waiting||myRun!==runId||current()!==next)return;phraseIndex=1;if(phraseIndex<phrases(next).length)playPhrase();else advanceParagraph();},ms);
+  function nextParagraph(){
+    clearTimeout(timer); clearTimeout(scrollTimer);
+    var ps=paras();
+    if(paraIndex<0){
+      var a=document.querySelector('#reader .para.active')||ps[0];
+      paraIndex=Math.max(0,ps.indexOf(a));
+    }
+    if(paraIndex>=ps.length-1){
+      clearHighlight();releaseHandoff();running=false;paused=false;waiting=false;render();
+      try{toast('Auto Fokus selesai')}catch(_){}
+      return;
+    }
+    var oldEl=current();
+    clearHighlight();
+    var held=markLastWordForHandoff(oldEl);
+    paraIndex++; phraseIndex=0;
+    activePara(ps[paraIndex]); running=true;paused=false;waiting=false;
+    ensureFocusMode();render();
+    /* No synthetic inter-paragraph pause: start the next highlight immediately. */
+    focusPhrase();
+    if(held){clearTimeout(handoffTimer);handoffTimer=setTimeout(releaseHandoff,HANDOFF_MS);}
   }
-  function start(reset){if(waiting)return;var ps=paras();if(!ps.length)return;if(reset||paraIndex<0){var a=document.querySelector('#reader .para.active')||ps[0];paraIndex=Math.max(0,ps.indexOf(a));phraseIndex=0;}clearTimers();clearAllHighlights();runId++;ensureFocus();activatePara(ps[paraIndex]);running=true;paused=false;waiting=false;render();playPhrase();}
-  function pause(){if(!running)return;clearTimers();runId++;clearAllHighlights();running=false;paused=true;render();}
-  function stop(){clearTimers();runId++;clearAllHighlights();running=false;paused=false;waiting=false;render();}
-  if(afBtn)afBtn.onclick=function(e){e.preventDefault();e.stopPropagation();if(running)pause();else if(paused)start(false);else start(true);};
-  document.getElementById('af76PlayPause')?.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(running)pause();else start(false);});
-  document.getElementById('af76Stop')?.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();stop();});
-  var baseGoTo=window.goTo;window.goTo=function(id){var result;try{if(running||paused)stop();document.body.classList.remove('focus');document.getElementById('focusBtn')?.classList.remove('on');result=baseGoTo?baseGoTo.apply(this,arguments):undefined;}catch(_){}return result;};
-  window.addEventListener('pageshow',function(){setTimeout(function(){if(document.body.classList.contains('cover-mode'))return;clearTimers();clearAllHighlights();running=false;paused=false;waiting=false;render();},120);},{passive:true});
-  window.__RC103_setTempo=function(v){var n=Number(v);if(!Number.isFinite(n))return;n=Math.max(.50,Math.min(2.00,n));try{localStorage.setItem('amp-b4-focusTempo',String(n));localStorage.setItem('tqv3b3-focusTempo',String(n));}catch(_){}if(running){clearTimeout(timer);playPhrase();}};
+  function start(reset){
+    if(waiting)return;
+    var ps=paras();
+    if(!ps.length)return;
+    if(reset){
+      var a=document.querySelector('#reader .para.active')||ps[0];
+      paraIndex=Math.max(0,ps.indexOf(a));
+      phraseIndex=0;
+    }else if(paraIndex<0){
+      var b=document.querySelector('#reader .para.active')||ps[0];
+      paraIndex=Math.max(0,ps.indexOf(b));
+      phraseIndex=0;
+    }
+    clearTimer();clearHighlight();
+    ensureFocusMode();
+    activePara(ps[paraIndex]);
+    running=true;paused=false;
+    render();
+    setTimeout(focusPhrase,80);
+  }
+  function pause(){
+    if(!running)return;
+    clearTimer();clearHighlight();running=false;paused=true;render();
+  }
+  function stop(){
+    clearTimer();clearHighlight();running=false;paused=false;waiting=false;
+    document.querySelectorAll('.rc103-active').forEach(function(x){x.classList.remove('rc103-active');});
+    render();
+  }
+
+  /* One and only one handler for the visible Auto Fokus button. */
+  if(afBtn){
+    afBtn.onclick=function(e){
+      e.preventDefault();e.stopPropagation();
+      if(running)pause(); else if(paused)start(false); else start(true);
+    };
+  }
+  document.getElementById('af76PlayPause')?.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    if(running)pause();else start(false);
+  });
+  document.getElementById('af76Stop')?.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();stop();
+  });
+
+  /* RC105: navigation only selects the chapter. Auto Fokus is manual. */
+  var baseGoTo=window.goTo;
+  window.goTo=function(id){
+    var result;
+    document.body.classList.remove('focus'); document.getElementById('focusBtn')?.classList.remove('on');
+    try{result=baseGoTo?baseGoTo.apply(this,arguments):undefined;}catch(e){result=undefined;}
+    if(id && id!=='beranda'){
+      setTimeout(function(){
+        var sec=document.getElementById(id),p=sec?.querySelector('.para');
+        if(p){activePara(p);phraseIndex=0;clearTimer();clearHighlight();running=false;paused=false;waiting=false;render();}
+      },180);
+    }
+    return result;
+  };
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest?.('[data-nav-target]');
+    if(!b)return;
+    var id=b.getAttribute('data-nav-target');
+    if(!id||id==='beranda')return;
+    setTimeout(function(){
+      var sec=document.getElementById(id),p=sec?.querySelector('.para');
+      if(p){activePara(p);phraseIndex=0;clearTimer();clearHighlight();running=false;paused=false;waiting=false;render();}
+    },220);
+  },true);
+
+  /* No Auto Fokus autoplay after page restore. */
+  window.addEventListener('pageshow',function(){
+    setTimeout(function(){
+      if(document.body.classList.contains('cover-mode'))return;
+      clearTimer();clearHighlight();running=false;waiting=false;paused=false;render();
+    },120);
+  },{passive:true});
+
+  /* Counter completion: exactly one RC103 continuation path. */
+  window.addEventListener('smartcountercomplete',function(){
+    if(!waiting)return;
+    waiting=false;paused=false;running=true;
+    var ps=paras();
+    if(paraIndex<ps.length-1){
+      paraIndex++;
+      phraseIndex=0;
+      activePara(ps[paraIndex]);
+      ensureFocusMode();render();
+      setTimeout(focusPhrase,180);
+    }else{
+      running=false;render();
+    }
+  });
+  window.addEventListener('smartcounterexit',function(){
+    if(!waiting)return;
+    waiting=false;paused=false;running=true;
+    ensureFocusMode();render();
+    setTimeout(focusPhrase,120);
+  });
+
+  /* RC107 standalone speed control: directly wired to this engine only. */
+  (function initStandaloneSpeed(){
+    var saved=1; try{var v=Number(localStorage.getItem('tqv3b3-focusTempo'));if(Number.isFinite(v))saved=v;}catch(_){}
+    setFocusTempo(saved,false);
+    var range=document.getElementById('rc107FocusSpeedRange');
+    if(range)range.oninput=function(){setFocusTempo(this.value,true);};
+    var down=document.getElementById('focusSpeedDown'), up=document.getElementById('focusSpeedUp');
+    if(down)down.onclick=function(){setFocusTempo(Math.min(2,+(focusTempo+.05).toFixed(2)),true);};
+    if(up)up.onclick=function(){setFocusTempo(Math.max(.5,+(focusTempo-.05).toFixed(2)),true);};
+    var lbl=document.getElementById('focusSpeedLabel'); if(lbl)lbl.textContent=focusTempo.toFixed(2).replace('.',',')+'×';
+    if(range)range.addEventListener('input',function(){if(lbl)lbl.textContent=focusTempo.toFixed(2).replace('.',',')+'×';});
+  })();
+  render();
 })();
 </script>
 
