@@ -5382,7 +5382,7 @@ body.cover-mode #cover-depan .cover-bg{
 
 
 <style id="rc110-soft-flow-ui">
-/* RC110 — Soft Flow Karaoke + simplified unified reading control */
+/* RC111 — Soft Flow Stable + simplified unified reading control */
 :root{--rc110-handoff:240ms}
 
 /* Cover: fit the complete artwork inside the true usable viewport, including iOS safe areas. */
@@ -5481,8 +5481,12 @@ body[data-rc110-highlight="ribbon"].focus #reader .para.rc103-active .semantic.r
  body[data-rc110-highlight="soft"].focus #reader .para.rc103-active .semantic.rc103-focus-word,
  body[data-rc110-highlight="soft"].focus #reader .para .semantic.rc103-handoff-word{animation-duration:1ms!important}
 }
+
+/* RC111 stability: avoid expensive compositing on long reading pages. */
+body[data-rc110-highlight="soft"].focus #reader .semantic{will-change:auto!important}
+body[data-rc110-highlight="soft"].focus #reader .semantic.rc103-focus-word{will-change:opacity!important}
 </style>
-<script id="rc110-soft-flow-engine">
+<script id="rc111-soft-flow-engine">
 (function(){
  'use strict';
  var STORE='rc110-highlight-style';
@@ -5510,11 +5514,24 @@ body[data-rc110-highlight="ribbon"].focus #reader .para.rc103-active .semantic.r
    }
    return null;
  }
+ var cueNode=null, cueRAF=0;
  function updateCue(){
-   document.querySelectorAll('.rc110-next-cue').forEach(function(n){n.classList.remove('rc110-next-cue')});
-   if(document.body.dataset.rc110Highlight!=='soft')return;
-   var cur=document.querySelector('#reader .semantic.rc103-focus-word');
-   var n=nextSemantic(cur);if(n)n.classList.add('rc110-next-cue');
+   cueRAF=0;
+   var next=null;
+   if(document.body.dataset.rc110Highlight==='soft'){
+     var cur=document.querySelector('#reader .semantic.rc103-focus-word');
+     next=nextSemantic(cur);
+   }
+   /* IMPORTANT: mutate the DOM only when the cue target actually changes.
+      This prevents MutationObserver self-feedback on Safari/iPadOS. */
+   if(cueNode===next)return;
+   if(cueNode&&cueNode.classList)cueNode.classList.remove('rc110-next-cue');
+   cueNode=next||null;
+   if(cueNode&&cueNode.classList)cueNode.classList.add('rc110-next-cue');
+ }
+ function scheduleCue(){
+   if(cueRAF)return;
+   cueRAF=requestAnimationFrame(updateCue);
  }
  function build(){
    var speed=byId('rc108UnifiedSpeedCard');
@@ -5536,10 +5553,27 @@ body[data-rc110-highlight="ribbon"].focus #reader .para.rc103-active .semantic.r
  }
  var obs=new MutationObserver(function(muts){
    for(var i=0;i<muts.length;i++){
-     var m=muts[i]; if(m.type==='attributes'&&m.attributeName==='class'&&m.target.classList&&m.target.classList.contains('semantic')){updateCue();break}
+     var m=muts[i];
+     if(m.type!=='attributes'||m.attributeName!=='class')continue;
+     var t=m.target;
+     if(!t||!t.classList||!t.classList.contains('semantic'))continue;
+     /* Ignore mutations caused only by Soft Flow's own pre-cue class.
+        Focus/handoff changes from the standalone RC103 engine are the only
+        events that need a visual cue recalculation. */
+     var oldc=m.oldValue||'';
+     var nowFocus=t.classList.contains('rc103-focus-word');
+     var wasFocus=(' '+oldc+' ').indexOf(' rc103-focus-word ')>=0;
+     var nowHandoff=t.classList.contains('rc103-handoff-word');
+     var wasHandoff=(' '+oldc+' ').indexOf(' rc103-handoff-word ')>=0;
+     if(nowFocus!==wasFocus||nowHandoff!==wasHandoff){scheduleCue();break}
    }
  });
- function init(){build();var r=byId('reader');if(r)obs.observe(r,{subtree:true,attributes:true,attributeFilter:['class']});updateCue()}
+ function init(){
+   build();
+   var r=byId('reader');
+   if(r)obs.observe(r,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});
+   scheduleCue();
+ }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
