@@ -4667,10 +4667,26 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
   }
   function clearHighlight(){
     clearTimeout(handoffTimer);
-    document.querySelectorAll('.rc103-focus-word,.rc103-handoff-word').forEach(function(x){
-      x.classList.remove('rc103-focus-word','rc103-handoff-word');
+    document.querySelectorAll('.rc103-focus-word,.rc103-handoff-word,.rc112-next-cue').forEach(function(x){
+      x.classList.remove('rc103-focus-word','rc103-handoff-word','rc112-next-cue');
       x.style.removeProperty('--karaoke-duration');
     });
+  }
+  function nextPhraseNode(el,node){
+    if(!el||!node)return null;
+    var own=phraseNodes(el), i=own.indexOf(node);
+    if(i>=0 && i<own.length-1)return own[i+1];
+    var ps=paras(), pi=ps.indexOf(el);
+    for(var k=pi+1;k<ps.length;k++){
+      var n=phraseNodes(ps[k])[0];
+      if(n)return n;
+    }
+    return null;
+  }
+  function setNextCue(el,node){
+    document.querySelectorAll('#reader .semantic.rc112-next-cue').forEach(function(x){x.classList.remove('rc112-next-cue');});
+    var next=nextPhraseNode(el,node);
+    if(next)next.classList.add('rc112-next-cue');
   }
   function beginHandoff(){
     var olds=Array.from(document.querySelectorAll('.rc103-focus-word'));
@@ -4778,9 +4794,10 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
     phraseIndex=Math.max(0,Math.min(phraseIndex,ps.length-1));
     beginHandoff();
     var node=ps[phraseIndex];
-    node.classList.remove('rc103-handoff-word');
+    node.classList.remove('rc103-handoff-word','rc112-next-cue');
     node.classList.add('rc103-focus-word');
     node.style.setProperty('--karaoke-duration',durationFor(el,node)+'ms');
+    setNextCue(el,node);
     /* Scroll only at paragraph boundaries or when the paragraph leaves the
        dead-band; never recenter every phrase. */
     stableScroll(el,phraseIndex===0);
@@ -5075,26 +5092,7 @@ body.focus .para .semantic.rc103-handoff-word{
  'use strict';
  var HANDOFF_MS=240;
 
- /* Strengthen RC103 handoff without creating another Auto Fokus engine. */
- var oldBegin=window.__rc108BeginHandoffPatched;
- if(!oldBegin){
-   window.__rc108BeginHandoffPatched=true;
-   var obs=new MutationObserver(function(muts){
-     muts.forEach(function(m){
-       if(m.type!=='attributes'||m.attributeName!=='class')return;
-       var n=m.target;
-       if(!(n instanceof HTMLElement)||!n.classList.contains('semantic'))return;
-       if(n.classList.contains('rc103-handoff-word')){
-         var p=n.closest('.para');
-         if(!p)return;
-         p.classList.add('rc108-handoff-para');
-         clearTimeout(p.__rc108HandoffTimer);
-         p.__rc108HandoffTimer=setTimeout(function(){p.classList.remove('rc108-handoff-para')},HANDOFF_MS+30);
-       }
-     });
-   });
-   obs.observe(document.getElementById('reader')||document.body,{subtree:true,attributes:true,attributeFilter:['class']});
- }
+ /* RC112: handoff is driven directly by RC103 classes; no observer required. */
 
  function byId(id){return document.getElementById(id)}
  function num(v,d){v=Number(v);return Number.isFinite(v)?v:d}
@@ -5381,200 +5379,146 @@ body.cover-mode #cover-depan .cover-bg{
 
 
 
-<style id="rc110-soft-flow-ui">
-/* RC111 — Soft Flow Stable + simplified unified reading control */
-:root{--rc110-handoff:240ms}
 
-/* Cover: fit the complete artwork inside the true usable viewport, including iOS safe areas. */
-body.cover-mode #cover-depan{
-  position:fixed!important;
-  inset:0!important;
-  width:100vw!important;
-  height:100svh!important;
-  min-height:100svh!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:hidden!important;
-  background:#073b2b!important;
-  display:block!important;
-}
-body.cover-mode #cover-depan .cover-bg{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  max-width:none!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))!important;
-  box-sizing:border-box!important;
-  object-fit:contain!important;
-  object-position:center center!important;
+
+
+<style id="rc112-eye-flow-stable">
+/* RC112 — Eye Flow Stable. Pure CSS rendering; cue state is written directly by RC103 standalone engine. */
+:root{--rc112-handoff:240ms}
+
+/* Cancel older visual recipes for RC103 words. */
+body.focus #reader .para.rc103-active .semantic.rc103-focus-word,
+body.focus #reader .para .semantic.rc103-handoff-word,
+body.focus #reader .para .semantic.rc112-next-cue{
   transform:none!important;
-  background:#073b2b!important;
+  filter:none!important;
+  text-shadow:none!important;
+  outline:0!important;
 }
-@supports not (height:100svh){body.cover-mode #cover-depan{height:100dvh!important;min-height:100dvh!important}}
+body.focus #reader .para{filter:none!important}
+body.focus #reader .para.rc103-active{opacity:1!important;background:transparent!important;box-shadow:none!important}
+body.focus #reader .para.rc103-active .semantic{opacity:.53!important;transition:opacity 150ms ease!important}
 
-/* Unified speed card: one authoritative pace control. */
-#rc108UnifiedSpeedCard{
-  border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line))!important;
-  border-radius:18px!important;
-  background:color-mix(in srgb,var(--bg) 94%,var(--accent) 6%)!important;
-  box-shadow:0 8px 22px rgba(0,0,0,.06)!important;
-}
-#rc108UnifiedSpeedCard .rc108-speed-title{font-size:20px!important;justify-content:flex-start}
-#rc108UnifiedSpeedCard .hint{margin-top:4px!important}
-#rc108UnifiedSpeedCard .rc108-speed-value{font-size:34px!important;line-height:1!important;margin:14px 0 4px!important}
-#rc108UnifiedSpeedCard .rc108-speed-band{font-size:14px!important;margin-bottom:14px!important}
-#rc108UnifiedSpeedCard input[type=range]{height:32px!important}
-#rc108UnifiedSpeedCard .rc108-speed-scale{font-size:12px!important;line-height:1.25!important}
-#rc108UnifiedSpeedCard .rc108-speed-actions{display:grid!important;grid-template-columns:1fr 1.15fr 1fr!important;gap:7px!important}
-#rc108UnifiedSpeedCard .rc108-speed-actions button{padding:9px 7px!important;font-size:12px!important}
-
-/* Highlight model selector. Separate from speed, but deliberately simple. */
-#rc110HighlightCard{margin-top:12px!important}
-#rc110HighlightCard .rc110-title{font-size:17px;font-weight:850;display:flex;align-items:center;gap:8px}
-#rc110HighlightCard .rc110-desc{font-size:12.5px;color:var(--muted);line-height:1.45;margin:5px 0 10px}
-#rc110HighlightCard .rc110-segment{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:4px;border-radius:13px;background:color-mix(in srgb,var(--line) 58%,transparent)}
-#rc110HighlightCard .rc110-model{border:0;border-radius:10px;padding:10px 8px;font-weight:800;background:transparent;color:var(--ink);cursor:pointer}
-#rc110HighlightCard .rc110-model.active{background:var(--bg);box-shadow:0 2px 9px rgba(0,0,0,.10);color:var(--accent)}
-#rc110HighlightCard .rc110-note{font-size:11.5px;color:var(--muted);margin-top:8px}
-
-/* SOFT FLOW: stable visual state, next phrase gently pre-cued, no moving block that can jump. */
-body[data-rc110-highlight="soft"].focus #reader .para.rc103-active .semantic{opacity:.50!important;transition:opacity 180ms ease,background-color 180ms ease,box-shadow 180ms ease!important}
-body[data-rc110-highlight="soft"].focus #reader .para.rc103-active .semantic.rc110-next-cue{
-  opacity:.74!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 8%,transparent),color-mix(in srgb,var(--accent2) 7%,transparent))!important;
-  background-size:100% 28%!important;
-  background-position:left 92%!important;
-  background-repeat:no-repeat!important;
-}
-body[data-rc110-highlight="soft"].focus #reader .para.rc103-active .semantic.rc103-focus-word{
+/* Default model: Eye Glide. The fill progresses continuously from left to right, with a soft baseline. */
+body[data-rc112-highlight="glide"].focus #reader .para.rc103-active .semantic.rc103-focus-word{
   opacity:1!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 20%,transparent),color-mix(in srgb,var(--accent2) 17%,transparent))!important;
-  background-size:100% 74%!important;
-  background-position:left 82%!important;
-  background-repeat:no-repeat!important;
-  box-shadow:inset 0 -.10em 0 color-mix(in srgb,var(--accent) 38%,transparent)!important;
+  display:inline!important;
+  white-space:normal!important;
+  position:relative!important;
   border-radius:.30em!important;
-  animation:rc110SoftArrive 180ms cubic-bezier(.2,.7,.2,1) both!important;
-  will-change:opacity,filter!important;
+  padding:1px 2px!important;
+  background-color:transparent!important;
+  background-image:
+    linear-gradient(90deg,
+      color-mix(in srgb,var(--accent) 22%,transparent) 0%,
+      color-mix(in srgb,var(--accent) 18%,transparent) 70%,
+      color-mix(in srgb,var(--accent2) 20%,transparent) 100%),
+    linear-gradient(90deg,color-mix(in srgb,var(--accent) 34%,transparent),color-mix(in srgb,var(--accent2) 32%,transparent))!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-position:left 50%,left 92%!important;
+  background-size:0% 72%,0% 10%!important;
+  -webkit-box-decoration-break:clone!important;
+  box-decoration-break:clone!important;
+  box-shadow:none!important;
+  animation:rc112EyeGlide var(--karaoke-duration,2200ms) linear forwards!important;
+  will-change:background-size!important;
 }
-body[data-rc110-highlight="soft"].focus #reader .para .semantic.rc103-handoff-word{
-  opacity:1!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 14%,transparent),color-mix(in srgb,var(--accent2) 12%,transparent))!important;
-  background-size:100% 70%!important;
-  background-position:left 82%!important;
-  background-repeat:no-repeat!important;
-  box-shadow:inset 0 -.08em 0 color-mix(in srgb,var(--accent) 28%,transparent)!important;
-  animation:rc110SoftRelease var(--rc110-handoff) ease-out forwards!important;
+@keyframes rc112EyeGlide{
+  0%{background-size:1% 72%,1% 10%}
+  100%{background-size:100% 72%,100% 10%}
 }
-@keyframes rc110SoftArrive{from{opacity:.72;filter:saturate(.90)}to{opacity:1;filter:saturate(1)}}
-@keyframes rc110SoftRelease{from{opacity:1;filter:saturate(1)}to{opacity:.44;filter:saturate(.92)}}
 
-/* RIBBON FLOW: preserve the RC109 left-to-right sweep as an alternate model. */
-body[data-rc110-highlight="ribbon"].focus #reader .para.rc103-active .semantic.rc103-focus-word{
-  animation:rc109EyeFlow var(--karaoke-duration,2200ms) linear forwards!important;
+/* Incoming phrase is visible before the old phrase releases, but without a moving animation. */
+body[data-rc112-highlight="glide"].focus #reader .semantic.rc112-next-cue{
+  opacity:.72!important;
+  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 7%,transparent),color-mix(in srgb,var(--accent2) 6%,transparent))!important;
+  background-repeat:no-repeat!important;
+  background-position:left 92%!important;
+  background-size:100% 10%!important;
+  border-radius:.28em!important;
 }
+
+/* Outgoing phrase stays fully readable for 240 ms after incoming phrase starts. */
+body[data-rc112-highlight="glide"].focus #reader .semantic.rc103-handoff-word{
+  opacity:1!important;
+  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 13%,transparent),color-mix(in srgb,var(--accent2) 12%,transparent))!important;
+  background-repeat:no-repeat!important;
+  background-position:left 88%!important;
+  background-size:100% 42%!important;
+  border-radius:.28em!important;
+  box-shadow:none!important;
+  animation:rc112Release var(--rc112-handoff) ease-out forwards!important;
+}
+@keyframes rc112Release{from{opacity:1}to{opacity:.48}}
+
+/* Alternate model: Soft Marker. No sweeping block; only a gentle arrival/fade. */
+body[data-rc112-highlight="marker"].focus #reader .para.rc103-active .semantic.rc103-focus-word{
+  opacity:1!important;
+  display:inline!important;
+  white-space:normal!important;
+  border-radius:.32em!important;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 18%,transparent),color-mix(in srgb,var(--accent2) 16%,transparent))!important;
+  box-shadow:inset 0 -.10em 0 color-mix(in srgb,var(--accent) 32%,transparent)!important;
+  animation:rc112MarkerIn 150ms ease-out both!important;
+}
+body[data-rc112-highlight="marker"].focus #reader .semantic.rc112-next-cue{opacity:.68!important;box-shadow:inset 0 -.06em 0 color-mix(in srgb,var(--accent) 14%,transparent)!important}
+body[data-rc112-highlight="marker"].focus #reader .semantic.rc103-handoff-word{
+  opacity:1!important;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 11%,transparent),color-mix(in srgb,var(--accent2) 10%,transparent))!important;
+  box-shadow:inset 0 -.07em 0 color-mix(in srgb,var(--accent) 22%,transparent)!important;
+  animation:rc112Release var(--rc112-handoff) ease-out forwards!important;
+}
+@keyframes rc112MarkerIn{from{opacity:.72}to{opacity:1}}
+
+/* Avoid expensive global compositing on long chapters. */
+body.focus #reader .semantic{will-change:auto!important}
+body[data-rc112-highlight="glide"].focus #reader .semantic.rc103-focus-word{will-change:background-size!important}
 
 @media (prefers-reduced-motion:reduce){
- body[data-rc110-highlight="soft"].focus #reader .para.rc103-active .semantic.rc103-focus-word,
- body[data-rc110-highlight="soft"].focus #reader .para .semantic.rc103-handoff-word{animation-duration:1ms!important}
+ body[data-rc112-highlight="glide"].focus #reader .semantic.rc103-focus-word{animation-duration:1ms!important}
+ body.focus #reader .semantic.rc103-handoff-word{animation-duration:1ms!important}
 }
 
-/* RC111 stability: avoid expensive compositing on long reading pages. */
-body[data-rc110-highlight="soft"].focus #reader .semantic{will-change:auto!important}
-body[data-rc110-highlight="soft"].focus #reader .semantic.rc103-focus-word{will-change:opacity!important}
+/* Highlight selector UI */
+#rc112HighlightCard{margin-top:12px!important}
+#rc112HighlightCard .rc112-title{font-size:17px;font-weight:850;margin-bottom:4px}
+#rc112HighlightCard .rc112-desc{font-size:12.5px;color:var(--muted);line-height:1.45;margin-bottom:10px}
+#rc112HighlightCard .rc112-segment{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:4px;border-radius:13px;background:color-mix(in srgb,var(--line) 58%,transparent)}
+#rc112HighlightCard button{border:0;border-radius:10px;padding:10px 8px;font-weight:800;background:transparent;color:var(--ink)}
+#rc112HighlightCard button.active{background:var(--bg);box-shadow:0 2px 9px rgba(0,0,0,.10);color:var(--accent)}
+#rc112HighlightNote{font-size:11.5px;color:var(--muted);margin-top:8px}
 </style>
-<script id="rc111-soft-flow-engine">
+<script id="rc112-eye-flow-ui">
 (function(){
  'use strict';
- var STORE='rc110-highlight-style';
- function byId(id){return document.getElementById(id)}
- function setStyle(mode,announce){
-   mode=(mode==='ribbon')?'ribbon':'soft';
-   document.body.dataset.rc110Highlight=mode;
-   try{localStorage.setItem(STORE,mode)}catch(_){ }
-   document.querySelectorAll('#rc110HighlightCard .rc110-model').forEach(function(b){b.classList.toggle('active',b.dataset.mode===mode)});
-   var note=byId('rc110HighlightNote');
-   if(note)note.textContent=mode==='soft'?'Soft Flow: fokus lembut + petunjuk frasa berikutnya. Paling stabil untuk membaca lama.':'Ribbon Flow: sapuan kiri ke kanan yang lebih terasa seperti karaoke.';
-   updateCue();
-   if(announce){try{toast(mode==='soft'?'Highlight: Soft Flow':'Highlight: Ribbon Flow')}catch(_){}}
- }
- function nextSemantic(node){
-   if(!node)return null;
-   var p=node.closest('.para'); if(!p)return null;
-   var list=Array.from(p.querySelectorAll('.semantic'));
-   var i=list.indexOf(node);
-   if(i>=0&&i<list.length-1)return list[i+1];
-   var q=p.nextElementSibling;
-   while(q){
-     if(q.classList&&q.classList.contains('para')){var n=q.querySelector('.semantic');if(n)return n}
-     q=q.nextElementSibling;
-   }
-   return null;
- }
- var cueNode=null, cueRAF=0;
- function updateCue(){
-   cueRAF=0;
-   var next=null;
-   if(document.body.dataset.rc110Highlight==='soft'){
-     var cur=document.querySelector('#reader .semantic.rc103-focus-word');
-     next=nextSemantic(cur);
-   }
-   /* IMPORTANT: mutate the DOM only when the cue target actually changes.
-      This prevents MutationObserver self-feedback on Safari/iPadOS. */
-   if(cueNode===next)return;
-   if(cueNode&&cueNode.classList)cueNode.classList.remove('rc110-next-cue');
-   cueNode=next||null;
-   if(cueNode&&cueNode.classList)cueNode.classList.add('rc110-next-cue');
- }
- function scheduleCue(){
-   if(cueRAF)return;
-   cueRAF=requestAnimationFrame(updateCue);
+ var KEY='rc112-highlight-style';
+ function id(x){return document.getElementById(x)}
+ function setMode(mode,announce){
+   mode=mode==='marker'?'marker':'glide';
+   document.body.dataset.rc112Highlight=mode;
+   try{localStorage.setItem(KEY,mode)}catch(_){ }
+   document.querySelectorAll('#rc112HighlightCard [data-mode]').forEach(function(b){b.classList.toggle('active',b.dataset.mode===mode)});
+   var note=id('rc112HighlightNote');
+   if(note)note.textContent=mode==='glide'?'Eye Glide: highlight mengalir kiri → kanan dengan pre-cue lembut dan handoff 240 ms.':'Soft Marker: lebih tenang, tanpa sapuan panjang; cocok bila mata mudah lelah.';
+   if(announce){try{toast(mode==='glide'?'Highlight: Eye Glide':'Highlight: Soft Marker')}catch(_){} }
  }
  function build(){
-   var speed=byId('rc108UnifiedSpeedCard');
+   var speed=id('rc108UnifiedSpeedCard');
    if(speed){
-     var title=speed.querySelector('.rc108-speed-title');if(title)title.textContent='🎚️ Kecepatan Baca Terpadu';
-     var hint=speed.querySelector('.hint');if(hint)hint.textContent='Satu slider untuk Auto Fokus, Auto Scroll, dan Karaoke. Atur sekali sampai ritme baca terasa nyaman.';
+     var title=speed.querySelector('.rc108-speed-title');if(title)title.textContent='🎚️ Kecepatan Baca';
+     var hint=speed.querySelector('.hint');if(hint)hint.textContent='Satu slider mengatur Auto Fokus, Auto Scroll, dan Karaoke sekaligus.';
    }
-   if(speed&&!byId('rc110HighlightCard')){
-     var card=document.createElement('div');card.id='rc110HighlightCard';card.className='control-card';
-     card.innerHTML='<div class="rc110-title">👁️ Model Highlight Karaoke</div>'+
-       '<div class="rc110-desc">Pilih gaya gerak mata. Soft Flow dibuat lebih tenang dan stabil; Ribbon Flow mempertahankan sapuan kiri-ke-kanan.</div>'+
-       '<div class="rc110-segment"><button type="button" class="rc110-model" data-mode="soft">Soft Flow</button><button type="button" class="rc110-model" data-mode="ribbon">Ribbon Flow</button></div>'+
-       '<div class="rc110-note" id="rc110HighlightNote"></div>';
+   if(speed&&!id('rc112HighlightCard')){
+     var card=document.createElement('div');
+     card.id='rc112HighlightCard';card.className='control-card';
+     card.innerHTML='<div class="rc112-title">👁️ Highlight Karaoke</div><div class="rc112-desc">Pilih gerakan highlight yang paling nyaman. Keduanya memakai engine Auto Fokus yang sama.</div><div class="rc112-segment"><button type="button" data-mode="glide">Eye Glide</button><button type="button" data-mode="marker">Soft Marker</button></div><div id="rc112HighlightNote"></div>';
      speed.insertAdjacentElement('afterend',card);
-     card.querySelectorAll('.rc110-model').forEach(function(b){b.addEventListener('click',function(){setStyle(this.dataset.mode,true)})});
+     card.querySelectorAll('[data-mode]').forEach(function(b){b.onclick=function(){setMode(this.dataset.mode,true)}});
    }
-   var mode='soft';try{mode=localStorage.getItem(STORE)||'soft'}catch(_){ }
-   setStyle(mode,false);
+   var mode='glide';try{mode=localStorage.getItem(KEY)||'glide'}catch(_){ }
+   setMode(mode,false);
  }
- var obs=new MutationObserver(function(muts){
-   for(var i=0;i<muts.length;i++){
-     var m=muts[i];
-     if(m.type!=='attributes'||m.attributeName!=='class')continue;
-     var t=m.target;
-     if(!t||!t.classList||!t.classList.contains('semantic'))continue;
-     /* Ignore mutations caused only by Soft Flow's own pre-cue class.
-        Focus/handoff changes from the standalone RC103 engine are the only
-        events that need a visual cue recalculation. */
-     var oldc=m.oldValue||'';
-     var nowFocus=t.classList.contains('rc103-focus-word');
-     var wasFocus=(' '+oldc+' ').indexOf(' rc103-focus-word ')>=0;
-     var nowHandoff=t.classList.contains('rc103-handoff-word');
-     var wasHandoff=(' '+oldc+' ').indexOf(' rc103-handoff-word ')>=0;
-     if(nowFocus!==wasFocus||nowHandoff!==wasHandoff){scheduleCue();break}
-   }
- });
- function init(){
-   build();
-   var r=byId('reader');
-   if(r)obs.observe(r,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});
-   scheduleCue();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build,{once:true});else build();
 })();
 </script>
 
