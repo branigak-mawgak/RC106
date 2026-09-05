@@ -1646,7 +1646,7 @@ function updateFocusTempo(showToast=true){
   focusTempo=Math.max(.45,Math.min(2.5,focusTempo));
   focusSpeedLabel.textContent=focusTempo.toFixed(2).replace('.',',')+'×';
   SAFE_STORE.setItem(B4KEY+'focusTempo',focusTempo);
-  if(autoFocus)startPhraseFocus();
+  if(window.__RC103_setTempo)window.__RC103_setTempo(focusTempo);
   if(showToast)toast('Kecepatan fokus '+focusSpeedLabel.textContent);
 }
 lpmRange.oninput=()=>updateLpm(true);
@@ -4201,77 +4201,60 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 <style id="rc103-standalone-autofocus-style">
-/* RC103: one authoritative Auto Fokus engine. */
+/* RC106 HF3: standalone Auto Fokus. No CSS animation; progress is owned by JS. */
 #reader .para{margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;line-height:1.58!important}
 #reader .para.rc103-active{scroll-margin-top:30vh!important}
-body.focus .para.rc103-active .semantic{opacity:.58!important}
-body.focus .para.rc103-active .semantic.rc103-focus-word{
-  opacity:1!important;
-  display:inline!important;
-  white-space:normal!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
-  background-repeat:no-repeat!important;
-  background-position:left center!important;
-  background-size:100% 100%!important;
-  border-radius:6px!important;
-  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
-}
-#rc103AfStatus{
-  position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));
-  transform:translateX(-50%);z-index:180;display:none;
-  padding:6px 12px;border-radius:999px;background:#111d;color:#fff;
-  font-size:11px;font-weight:700;white-space:nowrap;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-}
-#rc103AfStatus.show{display:block}
-</style>
-<style id="rc106-highlight-engine-style">
-/* RC106 HF2: deterministic phrase highlight. One phrase owns the sweep. */
-body.focus .para.rc103-active .semantic.rc103-focus-word{
-  opacity:1!important;display:inline!important;white-space:normal!important;
-  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
-  background-repeat:no-repeat!important;background-position:left center!important;
-  background-size:0% 100%!important;border-radius:6px!important;
-  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
-  animation:rc106FocusSweep var(--karaoke-duration,2200ms) linear forwards!important;
-  will-change:background-size;
-}
+body.focus .para.rc103-active .semantic{opacity:.58!important;transition:opacity .08s linear!important}
+body.focus .para.rc103-active .semantic.rc103-focus-word,
 body.focus .para.rc103-handoff-prev .semantic.rc103-focus-word{
   opacity:1!important;display:inline!important;white-space:normal!important;
   background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
   background-repeat:no-repeat!important;background-position:left center!important;
   background-size:100% 100%!important;border-radius:6px!important;
   box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
-  animation:none!important;
 }
-@keyframes rc106FocusSweep{
-  0%{background-size:0% 100%}
-  35%{background-size:100% 100%}
-  100%{background-size:100% 100%}
-}
+#rc103AfStatus{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);z-index:180;display:none;padding:6px 12px;border-radius:999px;background:#111d;color:#fff;font-size:11px;font-weight:700;white-space:nowrap;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#rc103AfStatus.show{display:block}
 </style>
 <div id="rc103AfStatus" aria-live="polite">Auto Fokus</div>
 <script id="rc103-standalone-autofocus">
 (function(){
   'use strict';
+  /* HF3: one authoritative engine. It never delegates phrase playback to the legacy engines. */
   window.__RC103_STANDALONE=true;
   var reader=document.getElementById('reader'), afBtn=document.getElementById('autoFocusBtn'), status=document.getElementById('rc103AfStatus');
-  var running=false, paused=false, waiting=false, paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, handoffTimer=0, runId=0;
-  var HANDOFF_MS=240;
+  var running=false,paused=false,waiting=false,paraIndex=-1,phraseIndex=0,timer=0,scrollTimer=0,handoffTimer=0,raf=0,runId=0;
+  var activeNode=null, activePara=null, HANDOFF_MS=240;
   function paras(){return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));}
-  function current(){var ps=paras();return ps[paraIndex]||document.querySelector('#reader .para.rc103-active')||null;}
-  function phrases(el){return el?Array.from(el.querySelectorAll('.semantic')):[];}
-  function clearTimers(){clearTimeout(timer);clearTimeout(scrollTimer);clearTimeout(handoffTimer);timer=scrollTimer=handoffTimer=0;}
-  function release(node){if(!node)return;node.classList.remove('rc103-focus-word','rc103-handoff-prev');node.style.removeProperty('--karaoke-duration');node.style.removeProperty('animation');node.style.removeProperty('background-size');}
-  function clearAllHighlights(){document.querySelectorAll('.rc103-focus-word').forEach(release);document.querySelectorAll('.rc103-handoff-prev').forEach(release);}
+  function current(){var ps=paras();return ps[paraIndex]||null;}
+  function phrases(el){return el?Array.from(el.querySelectorAll(':scope > .semantic')):[];}
+  function clearTimers(){clearTimeout(timer);clearTimeout(scrollTimer);clearTimeout(handoffTimer);timer=scrollTimer=handoffTimer=0;if(raf){cancelAnimationFrame(raf);raf=0;}}
+  function clearStyle(n){if(!n)return;n.classList.remove('rc103-focus-word','rc103-handoff-prev');n.style.removeProperty('--karaoke-duration');n.style.removeProperty('background-size');n.style.removeProperty('background-image');}
+  function release(n){clearStyle(n);}
+  function clearAllHighlights(){document.querySelectorAll('.rc103-focus-word,.rc103-handoff-prev').forEach(function(n){release(n);});activeNode=null;activePara=null;}
   function setStatus(t){if(status)status.textContent=t;}
   function render(){if(!afBtn)return;afBtn.textContent=running?'⏸ Auto Fokus':(paused?'▶ Lanjut Fokus':'◎ Auto Fokus');afBtn.classList.toggle('on',running);if(status){status.classList.toggle('show',running||paused||waiting);setStatus(waiting?'Smart Counter':(running?'Auto Fokus • Phrase '+(phraseIndex+1):(paused?'Auto Fokus dijeda':'Auto Fokus')));}}
   function ensureFocus(){if(!document.body.classList.contains('focus')){document.body.classList.add('focus');document.getElementById('focusBtn')?.classList.add('on');}}
   function activatePara(el){var ps=paras();ps.forEach(function(p){p.classList.remove('rc103-active');});document.querySelectorAll('#reader .para.active').forEach(function(p){p.classList.remove('active');});if(el){el.classList.add('rc103-active','active');paraIndex=ps.indexOf(el);}}
-  function tempo(){var v=1;try{v=Number(localStorage.getItem('amp-b4-focusTempo')||localStorage.getItem('tqv3b3-focusTempo')||1);}catch(_){}return Math.max(.50,Math.min(2.00,Number.isFinite(v)?v:1));}
+  function tempo(){var v=1;try{v=Number(localStorage.getItem('tqv3b3-focusTempo')||localStorage.getItem('amp-b4-focusTempo')||1);}catch(_){}return Math.max(.50,Math.min(2.00,Number.isFinite(v)?v:1));}
   function duration(node){var words=(node?.textContent||'').trim().split(/\s+/).filter(Boolean).length||2;return Math.max(750,Math.min(5000,words*520*tempo()));}
   function scrollToPara(el,force){if(!el||!reader)return;var rr=reader.getBoundingClientRect(),tr=el.getBoundingClientRect(),vh=reader.clientHeight,top=tr.top-rr.top,bottom=tr.bottom-rr.top;if(!force&&top>=vh*.18&&bottom<=vh*.72)return;var delta=(top+tr.height*.18)-vh*.30;if(Math.abs(delta)<22&&!force)return;var max=Math.max(0,reader.scrollHeight-reader.clientHeight),next=Math.max(0,Math.min(max,reader.scrollTop+delta));clearTimeout(scrollTimer);scrollTimer=setTimeout(function(){try{reader.scrollTo({top:next,behavior:'smooth'});}catch(_){reader.scrollTop=next;}},40);}
-  function activate(node,ms){if(!node)return;node.classList.remove('rc103-focus-word');node.style.removeProperty('--karaoke-duration');void node.offsetWidth;node.style.setProperty('--karaoke-duration',ms+'ms');node.classList.add('rc103-focus-word');void node.offsetWidth;}
+  function paint(n,pct){if(!n)return;n.style.setProperty('background-size',Math.max(0,Math.min(100,pct))+'% 100%','important');}
+  function startHighlight(node,ms){
+    if(!node)return;
+    node.classList.add('rc103-focus-word');
+    node.classList.remove('rc103-handoff-prev');
+    node.style.setProperty('background-image','linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))','important');
+    paint(node,0);
+    var sweep=Math.max(220,ms*.35), started=performance.now();
+    function step(now){
+      if(!running||waiting||node!==activeNode)return;
+      var pct=Math.min(100,((now-started)/sweep)*100);
+      paint(node,pct);
+      if(pct<100)raf=requestAnimationFrame(step);else raf=0;
+    }
+    raf=requestAnimationFrame(step);
+  }
   function repeatTarget(el){if(!el)return 0;var d=Number(el.dataset.repeatTarget||el.dataset.repeat||0);if(d>0)return d;var m=(el.textContent||'').replace(/\s+/g,' ').match(/(?:^|[\s(\[])(\d{1,4})\s*[x×](?=$|[\s)\],.;:])/i);if(m){d=Number(m[1]);if(d>0){el.dataset.repeatTarget=String(d);el.dataset.repeat=String(d);el.classList.add('repeatable');}}return d;}
   function openCounter(el){var target=repeatTarget(el);if(!target||waiting)return false;clearTimers();waiting=true;running=false;paused=true;render();try{window.SmartDzikirCounter?.activate?.(el,paraIndex);}catch(_){}return true;}
   function playPhrase(){
@@ -4279,21 +4262,37 @@ body.focus .para.rc103-handoff-prev .semantic.rc103-focus-word{
     var myRun=runId,el=current(),ps=phrases(el);
     if(!el||!ps.length){advanceParagraph();return;}
     if(phraseIndex>=ps.length){advanceParagraph();return;}
-    var node=ps[phraseIndex], old=el.querySelector('.rc103-focus-word');
-    if(old&&old!==node)release(old);
-    ps.forEach(function(x){if(x!==node&&x!==old)release(x);});
-    var ms=duration(node);activate(node,ms);scrollToPara(el,phraseIndex===0);render();clearTimeout(timer);
-    timer=setTimeout(function(){if(!running||waiting||myRun!==runId||current()!==el)return;phraseIndex++;if(phraseIndex<phrases(el).length){playPhrase();return;}if(repeatTarget(el)&&openCounter(el))return;advanceParagraph();},ms);
+    var node=ps[phraseIndex], old=activeNode;
+    if(old&&old!==node){release(old);}
+    document.querySelectorAll('#reader .rc103-focus-word').forEach(function(x){if(x!==node&&x!==old&&!x.classList.contains('rc103-handoff-prev'))release(x);});
+    activeNode=node;activePara=el;
+    var ms=duration(node);startHighlight(node,ms);scrollToPara(el,phraseIndex===0);render();clearTimeout(timer);
+    timer=setTimeout(function(){
+      if(!running||waiting||myRun!==runId||current()!==el||activeNode!==node)return;
+      phraseIndex++;
+      if(phraseIndex<phrases(el).length){playPhrase();return;}
+      if(repeatTarget(el)&&openCounter(el))return;
+      advanceParagraph();
+    },ms);
   }
   function advanceParagraph(){
     clearTimeout(timer);
-    var ps=paras(),old=ps[paraIndex],oldNode=old?.querySelector('.rc103-focus-word');
-    if(paraIndex>=ps.length-1){release(oldNode);running=false;paused=false;render();try{toast('Auto Fokus selesai')}catch(_){}return;}
-    var next=ps[paraIndex+1],nextPs=phrases(next);paraIndex++;phraseIndex=0;activatePara(next);ensureFocus();running=true;paused=false;waiting=false;render();
-    if(!nextPs.length){advanceParagraph();return;}
-    var nextNode=nextPs[0],ms=duration(nextNode);activate(nextNode,ms);scrollToPara(next,true);
-    if(oldNode){oldNode.classList.add('rc103-handoff-prev');clearTimeout(handoffTimer);handoffTimer=setTimeout(function(){release(oldNode);},HANDOFF_MS);}
-    var myRun=runId;clearTimeout(timer);timer=setTimeout(function(){if(!running||waiting||myRun!==runId||current()!==next)return;phraseIndex=1;if(phraseIndex<phrases(next).length)playPhrase();else advanceParagraph();},ms);
+    var ps=paras(),old=ps[paraIndex],oldNode=activeNode;
+    if(paraIndex>=ps.length-1){release(oldNode);activeNode=null;running=false;paused=false;render();try{toast('Auto Fokus selesai')}catch(_){}return;}
+    var next=ps[paraIndex+1],nextPs=phrases(next);
+    paraIndex++;phraseIndex=0;activatePara(next);ensureFocus();running=true;paused=false;waiting=false;render();
+    if(!nextPs.length){release(oldNode);activeNode=null;advanceParagraph();return;}
+    var nextNode=nextPs[0],ms=duration(nextNode);
+    /* Critical handoff: old phrase stays fully painted while next phrase starts immediately. */
+    if(oldNode&&oldNode!==nextNode){oldNode.classList.add('rc103-focus-word','rc103-handoff-prev');paint(oldNode,100);}
+    activeNode=nextNode;activePara=next;startHighlight(nextNode,ms);scrollToPara(next,true);
+    clearTimeout(handoffTimer);
+    if(oldNode&&oldNode!==nextNode)handoffTimer=setTimeout(function(){if(oldNode!==activeNode)release(oldNode);},HANDOFF_MS);
+    var myRun=runId;clearTimeout(timer);timer=setTimeout(function(){
+      if(!running||waiting||myRun!==runId||current()!==next||activeNode!==nextNode)return;
+      phraseIndex=1;
+      if(phraseIndex<phrases(next).length)playPhrase();else advanceParagraph();
+    },ms);
   }
   function start(reset){if(waiting)return;var ps=paras();if(!ps.length)return;if(reset||paraIndex<0){var a=document.querySelector('#reader .para.active')||ps[0];paraIndex=Math.max(0,ps.indexOf(a));phraseIndex=0;}clearTimers();clearAllHighlights();runId++;ensureFocus();activatePara(ps[paraIndex]);running=true;paused=false;waiting=false;render();playPhrase();}
   function pause(){if(!running)return;clearTimers();runId++;clearAllHighlights();running=false;paused=true;render();}
@@ -4302,8 +4301,8 @@ body.focus .para.rc103-handoff-prev .semantic.rc103-focus-word{
   document.getElementById('af76PlayPause')?.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(running)pause();else start(false);});
   document.getElementById('af76Stop')?.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();stop();});
   var baseGoTo=window.goTo;window.goTo=function(id){var result;try{if(running||paused)stop();document.body.classList.remove('focus');document.getElementById('focusBtn')?.classList.remove('on');result=baseGoTo?baseGoTo.apply(this,arguments):undefined;}catch(_){}return result;};
-  window.addEventListener('pageshow',function(){setTimeout(function(){if(document.body.classList.contains('cover-mode'))return;clearTimers();clearAllHighlights();running=false;paused=false;waiting=false;render();},120);},{passive:true});
-  window.__RC103_setTempo=function(v){var n=Number(v);if(!Number.isFinite(n))return;n=Math.max(.50,Math.min(2.00,n));try{localStorage.setItem('amp-b4-focusTempo',String(n));localStorage.setItem('tqv3b3-focusTempo',String(n));}catch(_){}if(running){clearTimeout(timer);playPhrase();}};
+  window.addEventListener('pageshow',function(){setTimeout(function(){if(document.body.classList.contains('cover-mode'))return;stop();},120);},{passive:true});
+  window.__RC103_setTempo=function(v){var n=Number(v);if(!Number.isFinite(n))return;n=Math.max(.50,Math.min(2.00,n));try{localStorage.setItem('tqv3b3-focusTempo',String(n));localStorage.setItem('amp-b4-focusTempo',String(n));}catch(_){}if(running){clearTimeout(timer);playPhrase();}};
 })();
 </script>
 
