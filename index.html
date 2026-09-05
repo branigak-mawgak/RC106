@@ -5195,5 +5195,189 @@ body.focus .para .semantic.rc103-handoff-word{
 })();
 </script>
 
+<style id="rc109-natural-flow-clear">
+/* RC109 — Clear Focus Surface + Continuous Eye Flow + Comfortable Unified Pace */
+
+/* 1) CLEAR focus surface: never tint the whole active paragraph. */
+body.focus #reader .para.active,
+body.focus #reader .para.af76-active,
+body.focus #reader .para.rc103-active,
+body.focus #reader .para.rc108-handoff-para{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+
+/* Keep surrounding text readable enough for natural eye saccades. */
+body.focus #reader .para{filter:none!important;transition:opacity .28s ease!important}
+body.focus #reader .para:not(.active):not(.af76-active):not(.rc103-active):not(.rc108-handoff-para){opacity:.22!important}
+body.focus #reader .para.rc103-active{opacity:1!important}
+body.focus #reader .para.rc103-active .semantic{opacity:.56!important;transition:opacity .18s linear!important}
+
+/* 2) Continuous phrase highlight: precise clear ribbon only under the current phrase.
+   The outgoing phrase remains for 240 ms while the incoming phrase has already started. */
+body.focus #reader .para.rc103-active .semantic.rc103-focus-word{
+  opacity:1!important;
+  position:relative!important;
+  display:inline!important;
+  white-space:normal!important;
+  border-radius:.28em!important;
+  box-shadow:none!important;
+  background-color:transparent!important;
+  background-image:linear-gradient(90deg,
+    color-mix(in srgb,var(--accent) 17%,transparent) 0%,
+    color-mix(in srgb,var(--accent) 14%,transparent) 72%,
+    color-mix(in srgb,var(--accent2) 16%,transparent) 100%)!important;
+  background-repeat:no-repeat!important;
+  background-position:left 82%!important;
+  background-size:0% 72%!important;
+  -webkit-box-decoration-break:clone!important;
+  box-decoration-break:clone!important;
+  animation:rc109EyeFlow var(--karaoke-duration,2200ms) linear forwards!important;
+  transition:opacity .12s linear!important;
+  will-change:background-size;
+}
+body.focus #reader .para .semantic.rc103-handoff-word{
+  opacity:1!important;
+  background-color:transparent!important;
+  background-image:linear-gradient(90deg,
+    color-mix(in srgb,var(--accent) 13%,transparent),
+    color-mix(in srgb,var(--accent2) 14%,transparent))!important;
+  background-repeat:no-repeat!important;
+  background-position:left 82%!important;
+  background-size:100% 72%!important;
+  box-shadow:none!important;
+  border-radius:.28em!important;
+  animation:rc109Release 240ms linear forwards!important;
+}
+@keyframes rc109EyeFlow{
+  0%{background-size:2% 72%}
+  100%{background-size:100% 72%}
+}
+@keyframes rc109Release{
+  0%{opacity:1;background-size:100% 72%}
+  100%{opacity:.46;background-size:100% 72%}
+}
+
+/* 3) Simplified unified pace UI. Internal technical values are hidden from the user. */
+#rc108UnifiedSpeedCard .rc108-speed-title{font-size:19px!important}
+#rc108UnifiedSpeedCard .hint{font-size:13px!important;line-height:1.45!important}
+#rc108UnifiedSpeedCard .rc108-speed-value{font-size:31px!important;margin-top:10px!important}
+#rc108UnifiedSpeedCard .rc108-speed-band{font-size:14px!important}
+#rc108UnifiedSpeedCard .rc108-speed-stats{display:none!important}
+#rc108UnifiedSpeedCard .rc108-speed-scale span:first-child{font-weight:750}
+#rc108UnifiedSpeedCard .rc108-speed-scale span:nth-child(2){font-weight:850;color:var(--ink)}
+#rc108UnifiedSpeedCard .rc108-speed-scale span:last-child{font-weight:750}
+#rc108UnifiedSpeedCard .rc108-speed-actions{margin-top:12px!important}
+#rc108UnifiedSpeedCard .rc108-speed-actions button{min-height:42px!important}
+
+/* 4) Cover: leave a tiny safety margin around the entire 16:9 artwork.
+   This avoids edge clipping from dynamic browser chrome / safe areas. */
+body.cover-mode #cover-depan{
+  background:#073b2b!important;
+  overflow:hidden!important;
+  display:grid!important;
+  place-items:center!important;
+}
+body.cover-mode #cover-depan .cover-bg{
+  position:absolute!important;
+  inset:0!important;
+  margin:auto!important;
+  display:block!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:calc(100vw - 12px)!important;
+  max-height:calc(100svh - 12px)!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:none!important;
+}
+@supports not (height:100svh){
+  body.cover-mode #cover-depan .cover-bg{max-height:calc(100dvh - 12px)!important}
+}
+</style>
+<script id="rc109-natural-flow-engine">
+(function(){
+ 'use strict';
+ function byId(id){return document.getElementById(id)}
+ function num(v,d){v=Number(v);return Number.isFinite(v)?v:d}
+ function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+ function fmt(v){return Number(v).toFixed(2).replace('.',',')+'×'}
+ function paceLabel(v){
+   if(v<=.72)return 'Cepat';
+   if(v<.93)return 'Agak cepat';
+   if(v<=1.08)return 'Normal • nyaman';
+   if(v<1.38)return 'Santai';
+   return 'Sangat santai';
+ }
+ function syncUnifiedCard(){
+   var card=byId('rc108UnifiedSpeedCard'), range=byId('rc108UnifiedRange');
+   if(!card||!range)return;
+   var title=card.querySelector('.rc108-speed-title');
+   var hint=card.querySelector('.hint');
+   var scale=card.querySelector('.rc108-speed-scale');
+   if(title)title.textContent='🎚️ Ritme Baca Terpadu';
+   if(hint)hint.textContent='Satu kontrol untuk Auto Fokus, Auto Scroll, dan Karaoke. Geser sampai gerakan highlight terasa mengikuti mata secara alami.';
+   if(scale)scale.innerHTML='<span>0,50×<br>Cepat</span><span>1,00×<br>Normal</span><span style="text-align:right">2,00×<br>Santai</span>';
+   var minus=byId('rc108SpeedMinus'), normal=byId('rc108SpeedNormal'), plus=byId('rc108SpeedPlus');
+   if(minus)minus.textContent='− Lebih cepat';
+   if(normal)normal.textContent='1,00× Nyaman';
+   if(plus)plus.textContent='+ Lebih santai';
+ }
+ function applyComfort(v,announce){
+   var range=byId('rc108UnifiedRange'); if(!range)return;
+   v=clamp(num(v,1),.5,2);
+   range.value=v.toFixed(2);
+
+   /* Comfortable reference at 1.00x:
+      Auto Fokus ≈ 115 words/minute (520 ms/word in the standalone engine)
+      Auto Scroll ≈ 14 actual text lines/minute.
+      Faster/slower remain inversely synchronized. */
+   var targetLpm=Math.round(clamp(14/v,6,28));
+   var karaoke=clamp(7.5*v,3.75,15);
+   try{
+     localStorage.setItem('rc108-unified-reading-speed',v.toFixed(2));
+     localStorage.setItem('rc107-autofocus-speed',v.toFixed(2));
+     localStorage.setItem('tqv3b3-focusTempo',v.toFixed(2));
+     localStorage.setItem('tqv3b3-lpm',String(targetLpm));
+     localStorage.setItem('tqv3b3-karaokeParagraph',String(karaoke));
+   }catch(_){ }
+   try{
+     if(typeof lpm!=='undefined')lpm=targetLpm;
+     if(typeof SAFE_STORE!=='undefined'&&typeof B4KEY!=='undefined')SAFE_STORE.setItem(B4KEY+'lpm',targetLpm);
+     if(typeof tickLpm==='function')tickLpm.last=0;
+   }catch(_){ }
+   var lr=byId('lpmRange'), lo=byId('lpmOut');
+   if(lr)lr.value=String(targetLpm); if(lo)lo.textContent=targetLpm+' baris/menit';
+   var kr=byId('karaokeParagraphRange'), ko=byId('karaokeParagraphOut');
+   if(kr)kr.value=String(karaoke); if(ko)ko.textContent=karaoke.toFixed(1).replace('.',',')+' dtk';
+   var out=byId('rc108UnifiedOut'), band=byId('rc108UnifiedBand');
+   if(out)out.textContent=fmt(v); if(band)band.textContent=paceLabel(v);
+   var legacy=byId('focusSpeedLabel');if(legacy)legacy.textContent=fmt(v);
+   var rc107=byId('rc107AfSpeedRange');if(rc107)rc107.value=v.toFixed(2);
+   var rc107out=byId('rc107AfSpeedOut');if(rc107out)rc107out.textContent=fmt(v)+' • '+paceLabel(v);
+   if(announce){try{toast('Ritme baca '+fmt(v)+' • '+paceLabel(v))}catch(_){}}
+ }
+ function bind(){
+   syncUnifiedCard();
+   var range=byId('rc108UnifiedRange'); if(!range)return;
+   var saved=1;
+   try{saved=clamp(num(localStorage.getItem('rc108-unified-reading-speed'),1),.5,2)}catch(_){ }
+   /* Replace RC108 property handlers with calibrated RC109 handlers. */
+   range.oninput=function(){applyComfort(this.value,false)};
+   range.onchange=function(){applyComfort(this.value,true)};
+   var minus=byId('rc108SpeedMinus'), normal=byId('rc108SpeedNormal'), plus=byId('rc108SpeedPlus');
+   if(minus)minus.onclick=function(){applyComfort((num(range.value,1)-.05).toFixed(2),true)};
+   if(normal)normal.onclick=function(){applyComfort(1,true)};
+   if(plus)plus.onclick=function(){applyComfort((num(range.value,1)+.05).toFixed(2),true)};
+   applyComfort(saved,false);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(bind,0)},{once:true});
+ else setTimeout(bind,0);
+})();
+</script>
+
 </body>
 </html>
