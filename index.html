@@ -4981,5 +4981,219 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
 })();
 </script>
 
+
+<style id="rc108-natural-reading-ui">
+/* RC108 — Natural Eye Flow + Unified Reading Speed + Full Cover */
+:root{--rc108-unified-factor:1}
+
+/* Cover: fit the COMPLETE 16:9 artwork inside the usable viewport. Never crop. */
+body.cover-mode #cover-depan{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  background:#073b2b!important;
+  display:grid!important;
+  place-items:center!important;
+}
+body.cover-mode #cover-depan .cover-bg{
+  position:absolute!important;
+  inset:0!important;
+  margin:auto!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:100vw!important;
+  max-height:100dvh!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:none!important;
+}
+@supports(height:100svh){
+  body.cover-mode #cover-depan{height:100svh!important}
+  body.cover-mode #cover-depan .cover-bg{max-height:100svh!important}
+}
+
+/* Keep the outgoing paragraph optically alive during the 240 ms eye handoff. */
+body.focus .para.rc108-handoff-para{opacity:1!important;filter:none!important;background:transparent!important;box-shadow:none!important}
+body.focus .para.rc108-handoff-para .semantic{opacity:.18!important}
+body.focus .para.rc108-handoff-para .semantic.rc103-handoff-word{opacity:1!important}
+
+/* Natural left-to-right eye-flow. No flash, no hard jump between phrases. */
+body.focus .para.rc103-active .semantic.rc103-focus-word{
+  background-image:linear-gradient(90deg,
+    color-mix(in srgb,var(--accent) 18%,transparent) 0%,
+    color-mix(in srgb,var(--accent) 32%,transparent) 52%,
+    color-mix(in srgb,var(--accent2) 38%,transparent) 100%)!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:0% 100%!important;
+  animation:rc108EyeSweep var(--karaoke-duration,2200ms) cubic-bezier(.18,.62,.30,1) forwards!important;
+  box-shadow:none!important;
+  border-radius:.32em!important;
+  -webkit-box-decoration-break:clone!important;
+  box-decoration-break:clone!important;
+  transition:opacity .24s ease,filter .24s ease!important;
+  will-change:background-size,filter;
+}
+body.focus .para .semantic.rc103-handoff-word{
+  animation:rc108EyeRelease 240ms ease-out forwards!important;
+  background-size:100% 100%!important;
+  box-shadow:none!important;
+}
+@keyframes rc108EyeSweep{
+  0%{background-size:3% 100%;filter:saturate(.96)}
+  12%{background-size:18% 100%}
+  88%{background-size:96% 100%}
+  100%{background-size:100% 100%;filter:saturate(1)}
+}
+@keyframes rc108EyeRelease{
+  from{opacity:1;filter:saturate(1);background-size:100% 100%}
+  to{opacity:.48;filter:saturate(.92);background-size:100% 100%}
+}
+@media (prefers-reduced-motion:reduce){
+ body.focus .para.rc103-active .semantic.rc103-focus-word{animation-timing-function:linear!important}
+}
+
+/* Hide the three competing speed controls. One authoritative control remains. */
+#rc108UnifiedSpeedCard{margin-top:14px}
+#rc108UnifiedSpeedCard .rc108-speed-title{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
+#rc108UnifiedSpeedCard .rc108-speed-value{font-size:29px;font-weight:900;color:var(--accent);text-align:center;margin:8px 0 2px}
+#rc108UnifiedSpeedCard .rc108-speed-band{text-align:center;color:var(--muted);font-weight:700;margin-bottom:10px}
+#rc108UnifiedSpeedCard input[type=range]{width:100%;accent-color:var(--accent)}
+#rc108UnifiedSpeedCard .rc108-speed-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px}
+#rc108UnifiedSpeedCard .rc108-speed-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
+#rc108UnifiedSpeedCard .rc108-speed-stat{border:1px solid var(--line);border-radius:10px;padding:8px 5px;text-align:center;background:var(--bg);font-size:11px;color:var(--muted)}
+#rc108UnifiedSpeedCard .rc108-speed-stat b{display:block;color:var(--ink);font-size:13px;margin-top:2px}
+#rc108UnifiedSpeedCard .rc108-speed-actions{display:flex;gap:8px}
+#rc108UnifiedSpeedCard .rc108-speed-actions button{flex:1}
+.rc108-speed-hidden{display:none!important}
+</style>
+<script id="rc108-natural-reading-engine">
+(function(){
+ 'use strict';
+ var HANDOFF_MS=240;
+
+ /* Strengthen RC103 handoff without creating another Auto Fokus engine. */
+ var oldBegin=window.__rc108BeginHandoffPatched;
+ if(!oldBegin){
+   window.__rc108BeginHandoffPatched=true;
+   var obs=new MutationObserver(function(muts){
+     muts.forEach(function(m){
+       if(m.type!=='attributes'||m.attributeName!=='class')return;
+       var n=m.target;
+       if(!(n instanceof HTMLElement)||!n.classList.contains('semantic'))return;
+       if(n.classList.contains('rc103-handoff-word')){
+         var p=n.closest('.para');
+         if(!p)return;
+         p.classList.add('rc108-handoff-para');
+         clearTimeout(p.__rc108HandoffTimer);
+         p.__rc108HandoffTimer=setTimeout(function(){p.classList.remove('rc108-handoff-para')},HANDOFF_MS+30);
+       }
+     });
+   });
+   obs.observe(document.getElementById('reader')||document.body,{subtree:true,attributes:true,attributeFilter:['class']});
+ }
+
+ function byId(id){return document.getElementById(id)}
+ function num(v,d){v=Number(v);return Number.isFinite(v)?v:d}
+ function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+ function fmt(v){return Number(v).toFixed(2).replace('.',',')+'×'}
+ function label(v){return Math.abs(v-1)<.001?'Normal':(v<1?'Lebih cepat':'Lebih lambat')}
+
+ var focusMode=byId('focusMode');
+ var anchor=focusMode?.closest('.control-card');
+ if(!anchor)return;
+
+ /* Hide legacy, separate speed controls so settings are not contradictory. */
+ [byId('lpmRange')?.closest('.control-card'),byId('paragraphKaraokeCard'),byId('rc107AfSpeedWrap')].forEach(function(el){if(el)el.classList.add('rc108-speed-hidden')});
+ [byId('speedDown')?.closest('.settings-row'),byId('focusSpeedDown')?.closest('.settings-row')].forEach(function(el){if(el)el.classList.add('rc108-speed-hidden')});
+
+ var card=byId('rc108UnifiedSpeedCard');
+ if(!card){
+   card=document.createElement('div');
+   card.id='rc108UnifiedSpeedCard';
+   card.className='control-card';
+   card.innerHTML=''
+    +'<div class="rc108-speed-title">⚙️ Kecepatan Baca Terpadu</div>'
+    +'<div class="hint">Satu kontrol untuk Auto Fokus, Auto Scroll, dan ritme Karaoke. Nilai lebih kecil = lebih cepat; nilai lebih besar = lebih lambat.</div>'
+    +'<div class="rc108-speed-value" id="rc108UnifiedOut">1,00×</div>'
+    +'<div class="rc108-speed-band" id="rc108UnifiedBand">Normal</div>'
+    +'<input id="rc108UnifiedRange" type="range" min="0.50" max="2.00" step="0.05" value="1.00" aria-label="Kecepatan Baca Terpadu">'
+    +'<div class="rc108-speed-scale"><span>0,50×<br>lebih cepat</span><span>1,00×<br>normal</span><span style="text-align:right">2,00×<br>lebih lambat</span></div>'
+    +'<div class="rc108-speed-stats">'
+      +'<div class="rc108-speed-stat">Auto Fokus<b id="rc108AfStat">1,00×</b></div>'
+      +'<div class="rc108-speed-stat">Auto Scroll<b id="rc108ScrollStat">200 LPM</b></div>'
+      +'<div class="rc108-speed-stat">Karaoke<b id="rc108KaraokeStat">7,5 dtk</b></div>'
+    +'</div>'
+    +'<div class="rc108-speed-actions"><button class="action" id="rc108SpeedMinus" type="button">− Lebih cepat</button><button class="action primary" id="rc108SpeedNormal" type="button">1,00× Normal</button><button class="action" id="rc108SpeedPlus" type="button">+ Lebih lambat</button></div>';
+   anchor.parentNode.insertBefore(card,anchor);
+ }
+
+ var range=byId('rc108UnifiedRange'), out=byId('rc108UnifiedOut'), band=byId('rc108UnifiedBand');
+ var afStat=byId('rc108AfStat'), scrollStat=byId('rc108ScrollStat'), karaokeStat=byId('rc108KaraokeStat');
+ var lpmRange=byId('lpmRange'), lpmOut=byId('lpmOut');
+ var kpRange=byId('karaokeParagraphRange'), kpOut=byId('karaokeParagraphOut');
+
+ function load(){
+   var v=1;
+   try{
+     var raw=localStorage.getItem('rc108-unified-reading-speed');
+     if(raw===null)raw=localStorage.getItem('rc107-autofocus-speed');
+     v=clamp(num(raw,1),.5,2);
+   }catch(_){ }
+   return v;
+ }
+ function apply(v,announce){
+   v=clamp(num(v,1),.5,2);
+   range.value=v.toFixed(2);
+   document.documentElement.style.setProperty('--rc108-unified-factor',String(v));
+
+   /* One factor, three engines. 1.00 = existing normal reference. */
+   var targetLpm=Math.round(clamp(200/v,10,420)/5)*5;
+   var karaoke=clamp(7.5*v,2,30);
+   try{
+     localStorage.setItem('rc108-unified-reading-speed',v.toFixed(2));
+     localStorage.setItem('rc107-autofocus-speed',v.toFixed(2));
+     localStorage.setItem('tqv3b3-focusTempo',v.toFixed(2));
+     localStorage.setItem('tqv3b3-lpm',String(targetLpm));
+     localStorage.setItem('tqv3b3-karaokeParagraph',String(karaoke));
+   }catch(_){ }
+
+   /* Update the existing scroll engine directly, without firing the legacy slider toast on every drag. */
+   if(lpmRange)lpmRange.value=String(targetLpm);
+   if(lpmOut)lpmOut.textContent=targetLpm+' baris/menit';
+   try{
+     if(typeof lpm!=='undefined')lpm=targetLpm;
+     if(typeof SAFE_STORE!=='undefined' && typeof B4KEY!=='undefined')SAFE_STORE.setItem(B4KEY+'lpm',targetLpm);
+     if(typeof tickLpm==='function')tickLpm.last=0;
+     var sl=byId('speedLabel');if(sl)sl.textContent=(targetLpm/35).toFixed(1)+'×';
+     var ab=byId('autoBtn');if(ab && typeof auto!=='undefined' && auto)ab.textContent='⏸ Scroll '+targetLpm+' LPM';
+   }catch(_){ }
+   if(kpRange)kpRange.value=String(karaoke);
+   if(kpOut)kpOut.textContent=karaoke.toFixed(1).replace('.',',')+' dtk';
+
+   out.textContent=fmt(v);band.textContent=label(v);
+   afStat.textContent=fmt(v);
+   scrollStat.textContent=targetLpm+' LPM';
+   karaokeStat.textContent=karaoke.toFixed(1).replace('.',',')+' dtk';
+   var legacy=byId('focusSpeedLabel');if(legacy)legacy.textContent=fmt(v);
+   var rc107=byId('rc107AfSpeedRange');if(rc107)rc107.value=v.toFixed(2);
+   var rc107out=byId('rc107AfSpeedOut');if(rc107out)rc107out.textContent=fmt(v)+' • '+label(v);
+   if(announce){try{toast('Kecepatan baca '+fmt(v)+' • '+label(v))}catch(_){ }}
+ }
+ range.oninput=function(){apply(this.value,false)};
+ range.onchange=function(){apply(this.value,true)};
+ byId('rc108SpeedMinus').onclick=function(){apply((num(range.value,1)-.05).toFixed(2),true)};
+ byId('rc108SpeedNormal').onclick=function(){apply(1,true)};
+ byId('rc108SpeedPlus').onclick=function(){apply((num(range.value,1)+.05).toFixed(2),true)};
+
+ /* Keep legacy controls synchronized if another module changes them later. */
+ window.addEventListener('pageshow',function(){setTimeout(function(){apply(load(),false)},0)},{passive:true});
+ apply(load(),false);
+})();
+</script>
+
 </body>
 </html>
