@@ -1,4 +1,4 @@
-const CACHE_NAME = 'amalan-rc106-offline-v1';
+const CACHE_NAME = 'amalan-rc107-offline-v2';
 
 const APP_SHELL = [
   './',

@@ -1,2 +1,1 @@
-RC107 — RC106 baseline + Cover/Handoff/Standalone Auto Fokus Speed
-2026-09-05
+RC107 — RC106 baseline rework: full cover + 240ms highlight handoff + standalone AF speed 0.50x-2.00x

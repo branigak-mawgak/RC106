@@ -12,12 +12,12 @@ Do not alter the Waqi'ah 74–96 numbering/content without a new revision.
 <!DOCTYPE html>
 <!-- AMALAN RC80 iPadOS EDITION RC82 — PORTRAIT CANVAS + SMART COUNTER + SURAH NUMBERING FIX — based on verified RC71 V6.2.4 FORCE GALERI MEDIA baseline. -->
 <!-- RC46 -->
-<html lang="id" data-build="AMALAN-RC106-iPadOS">
+<html lang="id" data-build="AMALAN-RC107-iPadOS">
 <head>
 <meta name="amalan-build" content="RC54-STABLE-CANONICAL">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Amalan Muslim — RC106 iPadOS</title>
+<title>Amalan Muslim — RC107 iPadOS</title>
 <script id="tuned-safe-storage">
 (function(){
   'use strict';
@@ -111,7 +111,7 @@ body.focus .para.af-next-preview{opacity:.60!important;filter:saturate(.78)!impo
 </style>
 <style id="build79Styles">
 .cover-ziarah{position:relative;min-height:78vh;padding:0!important;overflow:hidden;border-radius:22px;background:#073b2b;display:flex;align-items:flex-end;justify-content:center}
-.cover-ziarah .cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;z-index:0;background:#073b2b}
+.cover-ziarah .cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
 .cover-ziarah:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),transparent 22%,transparent 78%,rgba(0,0,0,.62));z-index:1;pointer-events:none}
 .cover-date{position:absolute;top:14px;z-index:3;background:rgba(4,56,40,.94);color:#fff7cc;border:2px solid #d7bd62;border-radius:999px;padding:8px 12px;font-weight:800;font-size:clamp(11px,2.7vw,16px);max-width:46%;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.25)}
 .cover-date-left{left:12px}.cover-date-right{right:12px}.cover-actions{position:relative;z-index:3;margin-bottom:18px;display:flex;justify-content:flex-start;padding-left:12px}
@@ -1301,7 +1301,7 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 @media(max-width:520px){#rc71VtpSpeedBand{min-width:62px;font-size:10px}}
 </style>
 </head>
-<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC107-RC106-BASELINE-COVER-HANDOFF-AF-SPEED">
+<body data-revision="RC71-V6.2.3-GALERI-MEDIA" data-amalan-build="RC107-RC106-BASELINE-REWORK">
 <button aria-label="Smart Counter manual" id="manualSmartCounterBtn" title="Smart Counter Manual" type="button">🔢</button><button aria-label="Kurangi satu hitungan" class="counter-undo" id="counterUndo" type="button">↶ Kurangi</button>
 <button aria-label="Lanjutkan Auto Fokus dan tutup Smart Counter" class="counter-continue" id="counterContinue" type="button">▶ Lanjut Auto Fokus</button>
 <button aria-label="Tambah hitungan dzikir" class="counter-fab" id="counterFab" type="button"><span class="counter-value" id="counterValue">0 / 33</span><span class="counter-mini-progress"><i id="counterProgress"></i></span><span class="counter-label" id="counterLabel">Dzikir</span><span class="counter-hint">Ketuk +1</span></button><div id="counterFloatActions" aria-label="Kontrol Smart Counter"><button aria-label="Reset hitungan ke 0" id="counterResetZero" title="Reset ke 0" type="button">↺</button><button aria-label="Exit Smart Counter" id="counterExit" title="Exit Smart Counter" type="button">✕</button></div>
@@ -1423,7 +1423,6 @@ body.cover-mode #cover-depan .cover-bg{width:100%;height:100%;object-fit:cover;o
 <div class="notes-list" id="notesList"></div><div class="empty-state" id="notesEmpty">Belum ada diary.</div></section></article>
 </main><footer class="bottom"><button class="action" onclick="goTo('beranda')">⌂ Home</button><button class="action nav-fullscreen-btn" id="navFullscreenBtn" aria-label="Layar penuh" title="Layar penuh">⛶</button><button class="action" id="themeNavBtn" aria-label="Ganti tema gelap/terang" title="Ganti tema">◐ Tema</button><button class="action" id="smartCounterNavBtn" aria-label="Buka Smart Counter" title="Smart Counter">🔢 Counter</button><button class="action nav-step" id="prevBtn" aria-label="Previous" title="Previous">‹‹</button><button class="action" id="focusBtn">Fokus</button><button class="action primary" id="autoBtn">▶ Scroll</button><button class="action" id="autoFocusBtn">◎ Auto Fokus</button><button class="action nav-step" id="nextBtn" aria-label="Next" title="Next">››</button><button class="action" id="fontDownBtn">A−</button><button class="action" id="fontBtn">A+</button><button class="action" id="checkpointBtn">📍 Simpan</button><button class="action" id="editBtn">✏️ Edit</button></footer></div><div class="drawer" id="drawer"><div class="shade"></div><aside class="panel"><button aria-label="Tutup menu" class="icon" id="closeBtn">✕</button><h3>Daftar Isi</h3><input class="searchbox" id="search" placeholder="Cari kata dalam bacaan..."/><button class="action primary" id="manageTocBtn" style="width:100%;margin:14px 0">☰ Atur Daftar Isi</button><div class="toc-group" data-menu-id="panduan-ziarah"><button class="toc-head"><span>🕌 Panduan Ziarah Kubur</span><b>+</b></button><div class="toc-list">
 <button onclick="goTo('panduan-ziarah')">Buka</button></div></div><div class="toc-group" data-menu-id="tawasulan"><button class="toc-head"><span>📿 TAWASULAN</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tawasulan')">Buka</button><small>Bacaan Tawassul</small></div></div><div class="toc-group" data-menu-id="surat-yasin-ziarah"><button class="toc-head"><span>📖 Surat Yasin</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-yasin-ziarah')">Buka</button><small>83 ayat • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="tahlil-ziarah"><button class="toc-head"><span>📿 Tahlil</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('tahlil-ziarah')">Buka</button><small>Bacaan Tahlil • Ritual Ziarah</small></div></div><div class="toc-group" data-menu-id="doa-tahlil"><button class="toc-head"><span>🤲 DOA TAHLIL</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-tahlil')">Buka</button><small>Doa penutup Tahlil</small></div></div><div class="toc-group" data-menu-id="surat-waqiah"><button class="toc-head"><span>🌾 Surat Al-Waqi’ah</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-waqiah')">Buka</button><small>96 ayat</small></div></div><div class="toc-group" data-menu-id="surat-mulk"><button class="toc-head"><span>🌙 Surat Al-Mulk</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('surat-mulk')">Buka</button><small>30 ayat</small></div></div><div class="toc-group" data-menu-id="yasin-waqiah-tabarok"><button class="toc-head"><span>📚 Yasin Waqiah Tabarok</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('yasin-waqiah-tabarok')">Buka</button><small>Yasin • Al-Waqi’ah • Al-Mulk</small></div></div><div class="toc-group" data-menu-id="doa-1"><button class="toc-head"><span>🤲 Doa Setelah Sholat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-1')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="doa-2"><button class="toc-head"><span>⭐ Doa Hajat</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('doa-2')">Buka</button><small>Bacaan pilihan</small></div></div><div class="toc-group" data-menu-id="library-bacaan"><button class="toc-head"><span>📚 Library Bacaan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('library-bacaan')">Buka</button><small>Koleksi bacaan</small></div></div><div class="toc-group" data-menu-id="galeri-foto"><button class="toc-head"><span>🎞️ Galeri Media</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('galeri-foto')">Buka</button><small>Foto, Audio &amp; Video</small></div></div><div class="toc-group" data-menu-id="catatan"><button class="toc-head"><span>📝 Catatan</span><b>+</b></button><div class="toc-sub"><button onclick="goTo('catatan')">Buka</button><small>Catatan pribadi</small></div></div><h3>Pengaturan</h3><div class="settings-row"><button data-theme="emerald">Emerald</button><button data-theme="sepia">Sepia</button><button data-theme="dark">Gelap</button></div><div class="settings-row"><button id="speedDown">Scroll −</button><button id="speedLabel">1.0×</button><button id="speedUp">Scroll +</button><button id="speedTurbo" type="button">⚡ +60</button></div><div class="settings-row"><button id="focusSpeedDown">Fokus lebih lambat</button><button id="focusSpeedLabel">0,75×</button><button id="focusSpeedUp">Fokus lebih cepat</button></div><div class="control-card"><label>Kecepatan Auto Scroll: <output id="lpmOut">200 baris/menit</output></label><input id="lpmRange" max="420" min="10" step="5" type="range" value="200"/><div class="hint">Kecepatan dihitung berdasarkan tinggi baris aktual. Font lebih besar otomatis disesuaikan agar ritme baca tetap stabil.</div></div><div class="control-card"><label>Auto Fokus</label><select id="focusMode"><option selected="" value="phrase">Per frasa</option><option value="paragraph">Per paragraf</option></select><div class="hint">Auto Fokus memiliki ritme sendiri dan tidak bergantung pada kecepatan Auto Scroll.</div></div>
-<div class="control-card" id="rc107FocusSpeedCard"><label>Kecepatan Auto Fokus: <output id="rc107FocusSpeedOut">1,00× — Normal</output></label><input id="rc107FocusSpeedRange" max="2" min="0.5" step="0.05" type="range" value="1"/><div class="hint">0,50×–2,00× • 1,00× = Normal • lebih kecil = lebih cepat • lebih besar = lebih lambat. Terpisah dari Auto Scroll.</div></div>
 <div class="control-card" id="paragraphKaraokeCard">
 <label>🎤 Karaoke per paragraf: <output id="karaokeParagraphOut">7,5 dtk</output></label>
 <input id="karaokeParagraphRange" max="30" min="2" step="0.5" type="range" value="7.5"/>
@@ -4589,11 +4588,32 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 
+
+<style id="rc107-cover-complete-artwork">
+/* RC107: never crop the Opening Page artwork. */
+body.cover-mode #cover-depan{background:#073b2b!important;overflow:hidden!important}
+body.cover-mode #cover-depan .cover-bg{
+  width:100%!important;height:100%!important;max-width:100vw!important;max-height:100dvh!important;
+  object-fit:contain!important;object-position:center center!important;background:#073b2b!important;
+}
+@media (orientation:landscape){body.cover-mode #cover-depan .cover-bg{object-fit:contain!important}}
+</style>
 <style id="rc103-standalone-autofocus-style">
 /* RC103: one authoritative Auto Fokus engine. */
 #reader .para{margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;line-height:1.58!important}
 #reader .para.rc103-active{scroll-margin-top:30vh!important}
 body.focus .para.rc103-active .semantic{opacity:.58!important}
+body.focus .para .semantic.rc103-handoff-word{
+  opacity:1!important;
+  display:inline!important;
+  white-space:normal!important;
+  background-image:linear-gradient(90deg,color-mix(in srgb,var(--accent) 30%,transparent),color-mix(in srgb,var(--accent2) 34%,transparent))!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:100% 100%!important;
+  border-radius:6px!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent)!important;
+}
 body.focus .para.rc103-active .semantic.rc103-focus-word{
   opacity:1!important;
   display:inline!important;
@@ -4613,7 +4633,6 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
 }
 #rc103AfStatus.show{display:block}
-</style>
 <style id="rc106-autofocus-smooth">
 /* RC106: smooth karaoke/highlight transition; no abrupt phrase flash. */
 body.focus .para.rc103-active .semantic.rc103-focus-word{
@@ -4622,9 +4641,7 @@ body.focus .para.rc103-active .semantic.rc103-focus-word{
   will-change:background-size,opacity;
 }
 @keyframes rc106FocusSweep{from{background-size:0% 100%;filter:saturate(.94)}to{background-size:100% 100%;filter:saturate(1)}}
-/* RC107: cross-paragraph handoff. The final word stays visible while the next paragraph starts. */
-body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in srgb,var(--accent2) 34%,transparent)!important;border-radius:6px!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent2) 10%,transparent)!important;transition:opacity .24s ease!important}
-#rc107FocusSpeedRange{width:100%;accent-color:var(--accent)}
+</style>
 </style>
 <div id="rc103AfStatus" aria-live="polite">Auto Fokus</div>
 <script id="rc103-standalone-autofocus">
@@ -4636,8 +4653,8 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
   var afBtn=document.getElementById('autoFocusBtn');
   var status=document.getElementById('rc103AfStatus');
   var running=false, paused=false, waiting=false;
-  var paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, handoffTimer=0, startedAt=0;
-  var focusTempo=1.00, HANDOFF_MS=240;
+  var paraIndex=-1, phraseIndex=0, timer=0, scrollTimer=0, startedAt=0, handoffTimer=0;
+  var HANDOFF_MS=240;
 
   function paras(){
     return Array.from(document.querySelectorAll('#reader > article.book > section.chapter .para'));
@@ -4649,12 +4666,22 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
            document.querySelector('#reader .para.active') || null;
   }
   function clearHighlight(){
-    document.querySelectorAll('.rc103-focus-word').forEach(function(x){
-      x.classList.remove('rc103-focus-word');
+    clearTimeout(handoffTimer);
+    document.querySelectorAll('.rc103-focus-word,.rc103-handoff-word').forEach(function(x){
+      x.classList.remove('rc103-focus-word','rc103-handoff-word');
       x.style.removeProperty('--karaoke-duration');
     });
   }
-  function clearTimer(){clearTimeout(timer);clearTimeout(scrollTimer);clearTimeout(handoffTimer);}
+  function beginHandoff(){
+    var olds=Array.from(document.querySelectorAll('.rc103-focus-word'));
+    if(!olds.length)return;
+    olds.forEach(function(x){x.classList.remove('rc103-focus-word');x.classList.add('rc103-handoff-word');});
+    clearTimeout(handoffTimer);
+    handoffTimer=setTimeout(function(){
+      olds.forEach(function(x){x.classList.remove('rc103-handoff-word');x.style.removeProperty('--karaoke-duration');});
+    },HANDOFF_MS);
+  }
+  function clearTimer(){clearTimeout(timer);clearTimeout(scrollTimer);}
   function setStatus(t){
     if(status) status.textContent=t;
   }
@@ -4708,36 +4735,14 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
   }
   function durationFor(el,node){
     var words=(node?.textContent||'').trim().split(/\s+/).filter(Boolean).length||2;
-    /* Standalone timing only. 1.00 = normal; <1 faster; >1 slower. */
-    return Math.max(520,Math.min(7000,words*520*focusTempo));
-  }
-  function speedLabel(v){
-    var n=Number(v)||1;
-    return n.toFixed(2).replace('.',',')+'×'+(Math.abs(n-1)<.001?' — Normal':(n<1?' — Lebih cepat':' — Lebih lambat'));
-  }
-  function setFocusTempo(v,announce){
-    focusTempo=Math.max(.50,Math.min(2.00,Number(v)||1));
-    var range=document.getElementById('rc107FocusSpeedRange'), out=document.getElementById('rc107FocusSpeedOut');
-    if(range)range.value=String(focusTempo); if(out)out.textContent=speedLabel(focusTempo);
-    try{localStorage.setItem('tqv3b3-focusTempo',String(focusTempo));}catch(_){}
-    if(announce){try{toast('Kecepatan Auto Fokus '+speedLabel(focusTempo))}catch(_){}}
-    /* Do not restart or call any legacy Auto Fokus engine. The new value is used by the next phrase. */
-  }
-  function markLastWordForHandoff(el){
-    document.querySelectorAll('.rc103-handoff-old').forEach(function(x){x.replaceWith(document.createTextNode(x.textContent||''));});
-    var sem=phraseNodes(el).slice(-1)[0]; if(!sem)return null;
-    var walker=document.createTreeWalker(sem,NodeFilter.SHOW_TEXT); var nodes=[],n; while(n=walker.nextNode())nodes.push(n);
-    for(var i=nodes.length-1;i>=0;i--){
-      var t=nodes[i], m=(t.nodeValue||'').match(/(\S+)(\s*)$/); if(!m)continue;
-      var before=(t.nodeValue||'').slice(0,m.index), word=m[1], tail=m[2]||'';
-      var span=document.createElement('span'); span.className='rc103-handoff-old'; span.textContent=word;
-      var frag=document.createDocumentFragment(); if(before)frag.appendChild(document.createTextNode(before)); frag.appendChild(span); if(tail)frag.appendChild(document.createTextNode(tail));
-      t.parentNode.replaceChild(frag,t); return span;
-    }
-    return null;
-  }
-  function releaseHandoff(){
-    document.querySelectorAll('.rc103-handoff-old').forEach(function(x){x.replaceWith(document.createTextNode(x.textContent||''));});
+    var tempo=1.00;
+    try{
+      var raw=localStorage.getItem('rc107-autofocus-speed');
+      if(raw===null)raw=localStorage.getItem('tqv3b3-focusTempo');
+      var v=Number(raw);
+      if(Number.isFinite(v)&&v>0)tempo=Math.max(.50,Math.min(2.00,v));
+    }catch(_){}
+    return Math.max(750,Math.min(7000,words*520*tempo));
   }
   function repeatTarget(el){
     if(!el)return 0;
@@ -4771,8 +4776,9 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
     var el=current(), ps=phraseNodes(el);
     if(!el||!ps.length){nextParagraph();return;}
     phraseIndex=Math.max(0,Math.min(phraseIndex,ps.length-1));
-    clearHighlight();
+    beginHandoff();
     var node=ps[phraseIndex];
+    node.classList.remove('rc103-handoff-word');
     node.classList.add('rc103-focus-word');
     node.style.setProperty('--karaoke-duration',durationFor(el,node)+'ms');
     /* Scroll only at paragraph boundaries or when the paragraph leaves the
@@ -4792,26 +4798,23 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
     },durationFor(el,node));
   }
   function nextParagraph(){
-    clearTimeout(timer); clearTimeout(scrollTimer);
+    clearTimer();beginHandoff();
     var ps=paras();
     if(paraIndex<0){
       var a=document.querySelector('#reader .para.active')||ps[0];
       paraIndex=Math.max(0,ps.indexOf(a));
     }
     if(paraIndex>=ps.length-1){
-      clearHighlight();releaseHandoff();running=false;paused=false;waiting=false;render();
+      running=false;paused=false;waiting=false;render();
       try{toast('Auto Fokus selesai')}catch(_){}
       return;
     }
-    var oldEl=current();
-    clearHighlight();
-    var held=markLastWordForHandoff(oldEl);
-    paraIndex++; phraseIndex=0;
-    activePara(ps[paraIndex]); running=true;paused=false;waiting=false;
+    paraIndex++;
+    phraseIndex=0;
+    activePara(ps[paraIndex]);
+    running=true;paused=false;waiting=false;
     ensureFocusMode();render();
-    /* No synthetic inter-paragraph pause: start the next highlight immediately. */
     focusPhrase();
-    if(held){clearTimeout(handoffTimer);handoffTimer=setTimeout(releaseHandoff,HANDOFF_MS);}
   }
   function start(reset){
     if(waiting)return;
@@ -4831,7 +4834,7 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
     activePara(ps[paraIndex]);
     running=true;paused=false;
     render();
-    setTimeout(focusPhrase,80);
+    focusPhrase();
   }
   function pause(){
     if(!running)return;
@@ -4902,7 +4905,7 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
       phraseIndex=0;
       activePara(ps[paraIndex]);
       ensureFocusMode();render();
-      setTimeout(focusPhrase,180);
+      focusPhrase();
     }else{
       running=false;render();
     }
@@ -4911,21 +4914,45 @@ body.focus .para .rc103-handoff-old{opacity:1!important;background:color-mix(in 
     if(!waiting)return;
     waiting=false;paused=false;running=true;
     ensureFocusMode();render();
-    setTimeout(focusPhrase,120);
+    focusPhrase();
   });
 
-  /* RC107 standalone speed control: directly wired to this engine only. */
-  (function initStandaloneSpeed(){
-    var saved=1; try{var v=Number(localStorage.getItem('tqv3b3-focusTempo'));if(Number.isFinite(v))saved=v;}catch(_){}
-    setFocusTempo(saved,false);
-    var range=document.getElementById('rc107FocusSpeedRange');
-    if(range)range.oninput=function(){setFocusTempo(this.value,true);};
-    var down=document.getElementById('focusSpeedDown'), up=document.getElementById('focusSpeedUp');
-    if(down)down.onclick=function(){setFocusTempo(Math.min(2,+(focusTempo+.05).toFixed(2)),true);};
-    if(up)up.onclick=function(){setFocusTempo(Math.max(.5,+(focusTempo-.05).toFixed(2)),true);};
-    var lbl=document.getElementById('focusSpeedLabel'); if(lbl)lbl.textContent=focusTempo.toFixed(2).replace('.',',')+'×';
-    if(range)range.addEventListener('input',function(){if(lbl)lbl.textContent=focusTempo.toFixed(2).replace('.',',')+'×';});
+  /* RC107: Auto Fokus speed control belongs only to this standalone engine. */
+  (function installStandaloneSpeed(){
+    var legacyLabel=document.getElementById('focusSpeedLabel');
+    var legacyDown=document.getElementById('focusSpeedDown');
+    var legacyUp=document.getElementById('focusSpeedUp');
+    var card=document.getElementById('focusMode')?.closest('.control-card');
+    if(!card)return;
+    var old=document.getElementById('rc107AfSpeedWrap'); if(old)old.remove();
+    var wrap=document.createElement('div');
+    wrap.id='rc107AfSpeedWrap';
+    wrap.innerHTML='<label style="display:block;margin-top:12px">Kecepatan Auto Fokus: <output id="rc107AfSpeedOut">1,00× • Normal</output></label><input id="rc107AfSpeedRange" type="range" min="0.50" max="2.00" step="0.05" value="1.00" style="width:100%"><div class="hint">0,50×–2,00× • 1,00× = Normal • nilai lebih kecil = lebih cepat • nilai lebih besar = lebih lambat.</div>';
+    card.appendChild(wrap);
+    var range=wrap.querySelector('#rc107AfSpeedRange'), out=wrap.querySelector('#rc107AfSpeedOut');
+    function load(){
+      var v=1;
+      try{var x=Number(localStorage.getItem('rc107-autofocus-speed'));if(Number.isFinite(x))v=x;}catch(_){}
+      v=Math.max(.50,Math.min(2.00,v));range.value=v.toFixed(2);return v;
+    }
+    function paint(v){
+      var text=v.toFixed(2).replace('.',',')+'×';
+      if(Math.abs(v-1)<.001)text+=' • Normal'; else if(v<1)text+=' • Lebih cepat'; else text+=' • Lebih lambat';
+      out.textContent=text;if(legacyLabel)legacyLabel.textContent=v.toFixed(2).replace('.',',')+'×';
+    }
+    function save(v){
+      v=Math.max(.50,Math.min(2.00,Number(v)||1));
+      try{localStorage.setItem('rc107-autofocus-speed',v.toFixed(2));localStorage.setItem('tqv3b3-focusTempo',v.toFixed(2));}catch(_){}
+      paint(v);
+      /* Do not call any legacy Auto Fokus engine. Current phrase simply keeps running; next timing uses the new value. */
+    }
+    var v=load();save(v);
+    range.oninput=function(){save(this.value);};
+    if(legacyDown)legacyDown.onclick=function(){var n=Math.min(2,+range.value+.05);range.value=n.toFixed(2);save(n);};
+    if(legacyUp)legacyUp.onclick=function(){var n=Math.max(.5,+range.value-.05);range.value=n.toFixed(2);save(n);};
+    window.addEventListener('pageshow',function(){var n=load();paint(n);},{passive:true});
   })();
+
   render();
 })();
 </script>
